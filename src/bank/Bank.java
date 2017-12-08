@@ -4,6 +4,8 @@
  */
 package bank;
 
+import AppForms.LoginForm;
+
 /**
  *
  * @author User
@@ -14,6 +16,7 @@ public class Bank {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here
+        LoginForm l = new LoginForm();
+        l.setVisible(true);
     }
 }

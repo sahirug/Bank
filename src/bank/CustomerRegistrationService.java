@@ -9,6 +9,6 @@ package bank;
  * @author User
  */
 public interface CustomerRegistrationService {
-    public void register(Customer customerDetails);
+    public void registerCustomer(Customer customerDetails);
     public void createAccount(Account account);
 }

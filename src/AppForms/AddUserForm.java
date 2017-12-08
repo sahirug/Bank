@@ -5,6 +5,10 @@
 package AppForms;
 
 import bank.Customer;
+import bank.DB;
+import bank.Employee;
+import bank.User;
+import java.sql.ResultSet;
 import javax.swing.JOptionPane;
 
 /**
@@ -18,6 +22,18 @@ public class AddUserForm extends javax.swing.JFrame {
      */
     public AddUserForm() {
         initComponents();
+        loadComboBox();
+    }
+    
+    private void loadComboBox(){
+        String sql = "SELECT employeeID FROM employee WHERE employeeID NOT IN (SELECT employeeID FROM user)";
+        try {
+            ResultSet rs = DB.search(sql);
+            while(rs.next()){
+                jComboBox1.addItem(rs.getString(1));
+            }
+        } catch (Exception e) {
+        }
     }
 
     /**
@@ -72,7 +88,7 @@ public class AddUserForm extends javax.swing.JFrame {
         jLabel5.setText("Employee ID");
 
         jComboBox1.setFont(new java.awt.Font("Segoe UI Light", 0, 18)); // NOI18N
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "-Select ID-" }));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -137,9 +153,16 @@ public class AddUserForm extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        
-        Customer c = new Customer("Sahiru");
-        JOptionPane.showMessageDialog(rootPane, c.getName());
+        if(!"".equals(jTextField1.getText()) && jPasswordField1.getPassword().length != 0 && jPasswordField2.getPassword().length != 0 && jComboBox1.getSelectedIndex() != 0){
+            if(new String(jPasswordField1.getPassword()).equals(new String(jPasswordField2.getPassword()))){
+                String employeeID = jComboBox1.getSelectedItem().toString();
+                Employee e = new User(jTextField1.getText(), new String(jPasswordField1.getPassword()), employeeID);
+            }else{
+                JOptionPane.showMessageDialog(rootPane, "The entered passwords do not match", "Mismatching Passwords", JOptionPane.ERROR_MESSAGE);
+            }
+        }else{
+            JOptionPane.showMessageDialog(rootPane, "Please complete all fields", "Incomplete fields", JOptionPane.ERROR_MESSAGE);
+        }        
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**

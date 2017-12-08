@@ -9,8 +9,8 @@ package bank;
  * @author User
  */
 public class Account {
-    String accountNumber;
-    double balance;
-    String lastAccessed;
-    Customer accountHolder;
+    private String accountNumber;
+    private double balance;
+    private String lastAccessed;
+    private Customer accountHolder;
 }

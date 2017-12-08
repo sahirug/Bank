@@ -10,7 +10,7 @@ import java.util.List;
  *
  * @author User
  */
-public class Customer implements CustomerRegistrationService{
+public class Customer{
     private String name;
     List<Account> accounts;
     List<Loan> loans;
@@ -21,16 +21,6 @@ public class Customer implements CustomerRegistrationService{
     
     public String getName() {
         return name;
-    }    
-    
-    @Override
-    public void register(Customer customerDetails) {
-        
-    }
-
-    @Override
-    public void createAccount(Account account) {
-        
     }
     
     

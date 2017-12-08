@@ -4,6 +4,12 @@
  */
 package AppForms;
 
+import bank.DB;
+import bank.Employee;
+import bank.User;
+import java.sql.ResultSet;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author User
@@ -15,8 +21,25 @@ public class AddEmployeeForm extends javax.swing.JFrame {
      */
     public AddEmployeeForm() {
         initComponents();
+        loadEmployeeID();
     }
 
+    public void loadEmployeeID(){
+        String sql = "SELECT COUNT(*) FROM employee";
+        int empCount;
+        try {
+            ResultSet rs = DB.search(sql);
+            if(rs.next()){
+                empCount = rs.getInt(1);
+                jTextField1.setText("EMP" + (empCount+1));
+            }else{
+                jTextField1.setText("ID NOT SPECIFIED");                
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -37,7 +60,7 @@ public class AddEmployeeForm extends javax.swing.JFrame {
         jButton8 = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jLabel1.setFont(new java.awt.Font("Segoe UI Light", 0, 18)); // NOI18N
         jLabel1.setText("Employee Name");
@@ -63,6 +86,11 @@ public class AddEmployeeForm extends javax.swing.JFrame {
 
         jButton8.setFont(new java.awt.Font("Segoe UI Light", 0, 18)); // NOI18N
         jButton8.setText("Login");
+        jButton8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton8ActionPerformed(evt);
+            }
+        });
 
         jLabel5.setFont(new java.awt.Font("Segoe UI Light", 1, 24)); // NOI18N
         jLabel5.setText("Add Employee");
@@ -123,6 +151,26 @@ public class AddEmployeeForm extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
+        if(!"".equals(jTextField2.getText()) && !"".equals(jTextField3.getText())){
+            String empID = jTextField1.getText();
+            Employee employee = new Employee(empID, jTextField2.getText(), jTextField3.getText());
+            User u = new User();
+            if(u.registerEmployee(employee) == 1){
+                if(jCheckBox1.isSelected()){
+                    AddUserForm addUserForm = new AddUserForm();
+                    addUserForm.setVisible(true);
+                    this.dispose();
+                }else{
+                    JOptionPane.showMessageDialog(rootPane, "Employee Saved!");
+                    this.dispose();
+                }
+            }
+        }else{
+            JOptionPane.showMessageDialog(rootPane, "Please complete all the required fields");
+        }
+    }//GEN-LAST:event_jButton8ActionPerformed
 
     /**
      * @param args the command line arguments

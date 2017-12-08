@@ -9,5 +9,8 @@ package bank;
  * @author User
  */
 public class Loan {
-    Customer customer;
+    private Customer customer;
+    private double loanAmount, monthlyInstallment;
+    private int paybackPeriod;
+    private String monthlyDeadline;
 }
