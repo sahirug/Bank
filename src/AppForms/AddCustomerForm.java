@@ -4,17 +4,42 @@
  */
 package AppForms;
 
+import bank.Customer;
+import bank.DB;
+import bank.Employee;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author User
  */
-public class AddCustomer extends javax.swing.JFrame {
+public class AddCustomerForm extends javax.swing.JFrame {
 
     /**
      * Creates new form AddCustomer
      */
-    public AddCustomer() {
+    public AddCustomerForm() {
         initComponents();
+        loadCustomerID();
+    }
+    
+    private void loadCustomerID(){
+        String sql = "SELECT COUNT(*) FROM customer";
+        int cusID = 1;
+        try {
+            ResultSet rs = DB.search(sql);
+            if(rs.next()){
+                cusID = rs.getInt(1);
+            }
+        }catch (SQLException e) {
+            JOptionPane.showMessageDialog(rootPane, e.getMessage(), "System error", JOptionPane.ERROR_MESSAGE);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(rootPane, e.getMessage(), "System error", JOptionPane.ERROR_MESSAGE);        
+        }finally{
+            jTextField3.setText("CUS" + (cusID+1));
+        }
     }
 
     /**
@@ -35,7 +60,7 @@ public class AddCustomer extends javax.swing.JFrame {
         jTextField4 = new javax.swing.JTextField();
         jButton8 = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jLabel5.setFont(new java.awt.Font("Segoe UI Light", 1, 24)); // NOI18N
         jLabel5.setText("Add Customer");
@@ -48,6 +73,7 @@ public class AddCustomer extends javax.swing.JFrame {
         jLabel7.setFont(new java.awt.Font("Segoe UI Light", 0, 18)); // NOI18N
         jLabel7.setText("Customer ID");
 
+        jTextField3.setEditable(false);
         jTextField3.setFont(new java.awt.Font("Segoe UI Light", 0, 18)); // NOI18N
 
         jLabel8.setFont(new java.awt.Font("Segoe UI Light", 0, 18)); // NOI18N
@@ -57,6 +83,11 @@ public class AddCustomer extends javax.swing.JFrame {
 
         jButton8.setFont(new java.awt.Font("Segoe UI Light", 0, 18)); // NOI18N
         jButton8.setText("Add");
+        jButton8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton8ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -111,6 +142,21 @@ public class AddCustomer extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
+        if(!"".equals(jTextField2.getText()) && !"".equals(jTextField4.getText())){
+            Customer customer = new Customer(jTextField2.getText(), jTextField3.getText(), jTextField4.getText());
+            Employee e = new Employee();
+            if(e.registerCustomer(customer) == 1){
+                JOptionPane.showMessageDialog(rootPane, "Customer saved!");
+                this.dispose();
+            }else{
+                JOptionPane.showMessageDialog(rootPane, "Something went wrong", "System error", JOptionPane.ERROR_MESSAGE);
+            }
+        }else{
+            JOptionPane.showMessageDialog(rootPane, "Please complete all fields", "Incomplete fields", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_jButton8ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -128,20 +174,20 @@ public class AddCustomer extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(AddCustomer.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AddCustomerForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(AddCustomer.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AddCustomerForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(AddCustomer.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AddCustomerForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(AddCustomer.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AddCustomerForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new AddCustomer().setVisible(true);
+                new AddCustomerForm().setVisible(true);
             }
         });
     }

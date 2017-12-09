@@ -4,6 +4,9 @@
  */
 package AppForms;
 
+import bank.Customer;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author User
@@ -57,6 +60,11 @@ public class DashboardForm extends javax.swing.JFrame {
 
         jButton1.setFont(new java.awt.Font("Segoe UI Light", 0, 18)); // NOI18N
         jButton1.setText("Add customer");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -82,9 +90,19 @@ public class DashboardForm extends javax.swing.JFrame {
 
         jButton9.setFont(new java.awt.Font("Segoe UI Light", 0, 18)); // NOI18N
         jButton9.setText("Add Employee");
+        jButton9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton9ActionPerformed(evt);
+            }
+        });
 
         jButton10.setFont(new java.awt.Font("Segoe UI Light", 0, 18)); // NOI18N
         jButton10.setText("Add User");
+        jButton10.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton10ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -137,6 +155,11 @@ public class DashboardForm extends javax.swing.JFrame {
 
         jButton11.setFont(new java.awt.Font("Segoe UI Light", 0, 18)); // NOI18N
         jButton11.setText(">");
+        jButton11.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton11ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -226,6 +249,39 @@ public class DashboardForm extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
+        new AddEmployeeForm().setVisible(true);
+    }//GEN-LAST:event_jButton9ActionPerformed
+
+    private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
+        new AddUserForm().setVisible(true);
+    }//GEN-LAST:event_jButton10ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        new AddCustomerForm().setVisible(true);
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
+        if(!"".equals(jTextField2.getText())){
+            if(jRadioButton1.isSelected()){
+                Customer customer = Customer.getDetails("CUS"+jTextField2.getText());
+                if(customer != null){                    
+                    new CustomerProfileForm(customer).setVisible(true);
+                }else{
+                    JOptionPane.showMessageDialog(null, "Customer CUS"+jTextField2.getText()+" does not exist", "Customer not found", JOptionPane.ERROR_MESSAGE);                    
+                }
+            }else if(jRadioButton2.isSelected()){
+
+            }else if(jRadioButton3.isSelected()){
+
+            }else if(jRadioButton4.isSelected()){
+                
+            }
+        }else{
+            JOptionPane.showMessageDialog(rootPane, "Please enter a reference ID", "Reference ID empty", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_jButton11ActionPerformed
 
     /**
      * @param args the command line arguments

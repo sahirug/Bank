@@ -4,6 +4,9 @@
  */
 package bank;
 
+import java.sql.SQLException;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author User
@@ -38,7 +41,16 @@ public class Employee implements CustomerRegistrationService{
     }
 
     @Override
-    public void registerCustomer(Customer customerDetails) {
+    public int registerCustomer(Customer customerDetails) {
+        String sql = "INSERT INTO customer VALUES('"+customerDetails.customerID()+"', '"+customerDetails.customerName()+"', '"+customerDetails.getContactNumber()+"')";
+        try {
+            return DB.insertUpdateDelete(sql);
+        }catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), "System error", JOptionPane.ERROR_MESSAGE);
+        }catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), "System error", JOptionPane.ERROR_MESSAGE);
+        }
+        return 0;
     
     }
 

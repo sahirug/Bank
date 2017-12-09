@@ -85,7 +85,7 @@ public class AddEmployeeForm extends javax.swing.JFrame {
         jCheckBox1.setText("Yes");
 
         jButton8.setFont(new java.awt.Font("Segoe UI Light", 0, 18)); // NOI18N
-        jButton8.setText("Login");
+        jButton8.setText("Add");
         jButton8.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton8ActionPerformed(evt);

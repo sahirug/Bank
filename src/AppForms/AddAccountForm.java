@@ -4,6 +4,14 @@
  */
 package AppForms;
 
+import Exceptions.IncompleteFieldsException;
+import bank.Account;
+import bank.CurrentDate;
+import bank.FixedAccount;
+import bank.SavingsAccount;
+import java.util.Random;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author User
@@ -15,10 +23,23 @@ public class AddAccountForm extends javax.swing.JFrame {
      */
     public AddAccountForm() {
         initComponents();
+        initRadioButtons();
+        checkAccountType();
+        loadAccountNumber();
+    }
+
+    public AddAccountForm(String customerID) {
+        initComponents();
+        initRadioButtons();
+        checkAccountType();
+        loadAccountNumber();
+        jTextField3.setText(customerID);
+    }
+    
+    public void initRadioButtons(){
         buttonGroup1.add(jRadioButton1);
         buttonGroup1.add(jRadioButton2);
-        jRadioButton1.setSelected(true);
-        checkAccountType();
+        jRadioButton1.setSelected(true);        
     }
     
     public void checkAccountType(){
@@ -28,7 +49,12 @@ public class AddAccountForm extends javax.swing.JFrame {
             jComboBox1.setEnabled(false);
         }
     }
-
+    
+    public void loadAccountNumber(){
+        int accCount = Account.getNewAccountNumber();
+        Random rand = new Random();
+        jTextField2.setText(("ACC"+(rand.nextInt((9999 - 1000) + 1) + 1000)) + (accCount+1));
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -55,7 +81,7 @@ public class AddAccountForm extends javax.swing.JFrame {
         jComboBox1 = new javax.swing.JComboBox();
         jLabel11 = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jLabel3.setFont(new java.awt.Font("Segoe UI Light", 1, 24)); // NOI18N
         jLabel3.setText("Add Account");
@@ -101,12 +127,17 @@ public class AddAccountForm extends javax.swing.JFrame {
 
         jButton10.setFont(new java.awt.Font("Segoe UI Light", 0, 18)); // NOI18N
         jButton10.setText("Add Account");
+        jButton10.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton10ActionPerformed(evt);
+            }
+        });
 
         jLabel10.setFont(new java.awt.Font("Segoe UI Light", 0, 18)); // NOI18N
         jLabel10.setText("Maturity Period");
 
         jComboBox1.setFont(new java.awt.Font("Segoe UI Light", 0, 18)); // NOI18N
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Months", "3", "6", "12", "24", "36", "48", "60" }));
 
         jLabel11.setFont(new java.awt.Font("Segoe UI Light", 0, 18)); // NOI18N
         jLabel11.setText("Months");
@@ -194,6 +225,35 @@ public class AddAccountForm extends javax.swing.JFrame {
         this.checkAccountType();
     }//GEN-LAST:event_jRadioButton2MouseClicked
 
+    private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
+        try{
+            this.validateFields();
+            Account account;
+            if(jRadioButton1.isSelected()){
+                account = new SavingsAccount(jTextField2.getText(), new CurrentDate().getDate(), jTextField3.getText(), Double.parseDouble(jTextField4.getText()));
+            }else{
+                account = new FixedAccount(jTextField2.getText(), new CurrentDate().getDate(), jTextField3.getText(), Double.parseDouble(jTextField4.getText()), jComboBox1.getSelectedItem().toString());
+            }
+            if(account.createAccount(account) == 1){
+                JOptionPane.showMessageDialog(rootPane, "Account created!");
+                this.dispose();
+            }else{
+                JOptionPane.showMessageDialog(null, "There was an error", "System error", JOptionPane.ERROR_MESSAGE);
+            }
+        }catch(IncompleteFieldsException e){
+            JOptionPane.showMessageDialog(null, e.getMessage(), e.getErrorTitle(), JOptionPane.ERROR_MESSAGE); 
+        }
+    }//GEN-LAST:event_jButton10ActionPerformed
+
+    public void validateFields() throws IncompleteFieldsException{
+        if("".equals(jTextField4.getText()) ){
+            throw new IncompleteFieldsException();
+        }
+        if(jRadioButton2.isSelected() && jComboBox1.getSelectedIndex() == 0){
+            throw new IncompleteFieldsException("Please set a maturity period");
+        }
+    }
+    
     /**
      * @param args the command line arguments
      */

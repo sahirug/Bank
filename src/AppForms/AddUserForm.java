@@ -56,7 +56,7 @@ public class AddUserForm extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         jComboBox1 = new javax.swing.JComboBox();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jButton1.setFont(new java.awt.Font("Segoe UI Light", 0, 18)); // NOI18N
         jButton1.setText("Add User");
@@ -156,7 +156,11 @@ public class AddUserForm extends javax.swing.JFrame {
         if(!"".equals(jTextField1.getText()) && jPasswordField1.getPassword().length != 0 && jPasswordField2.getPassword().length != 0 && jComboBox1.getSelectedIndex() != 0){
             if(new String(jPasswordField1.getPassword()).equals(new String(jPasswordField2.getPassword()))){
                 String employeeID = jComboBox1.getSelectedItem().toString();
-                Employee e = new User(jTextField1.getText(), new String(jPasswordField1.getPassword()), employeeID);
+                User newUser = new User(jTextField1.getText(), new String(jPasswordField1.getPassword()), employeeID);
+                if(newUser.registerUser() == 1){
+                    JOptionPane.showMessageDialog(rootPane, "User added!");
+                    this.dispose();
+                }
             }else{
                 JOptionPane.showMessageDialog(rootPane, "The entered passwords do not match", "Mismatching Passwords", JOptionPane.ERROR_MESSAGE);
             }

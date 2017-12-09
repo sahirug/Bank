@@ -4,6 +4,7 @@
  */
 package AppForms;
 
+import bank.Customer;
 import javax.swing.JOptionPane;
 
 /**
@@ -17,6 +18,13 @@ public class CustomerProfileForm extends javax.swing.JFrame {
      */
     public CustomerProfileForm() {
         initComponents();
+    }
+    
+    public CustomerProfileForm(Customer customer){
+        initComponents();
+        jLabel6.setText(customer.customerID());
+        jTextField3.setText(customer.customerName());
+        jTextField4.setText(customer.getContactNumber());
     }
 
     /**
@@ -42,8 +50,10 @@ public class CustomerProfileForm extends javax.swing.JFrame {
         jLabel10 = new javax.swing.JLabel();
         jButton8 = new javax.swing.JButton();
         jButton9 = new javax.swing.JButton();
+        jButton10 = new javax.swing.JButton();
+        jButton11 = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jLabel5.setFont(new java.awt.Font("Segoe UI Light", 1, 24)); // NOI18N
         jLabel5.setText("Customer: ");
@@ -98,6 +108,17 @@ public class CustomerProfileForm extends javax.swing.JFrame {
         jButton9.setFont(new java.awt.Font("Segoe UI Light", 0, 18)); // NOI18N
         jButton9.setText("Edit");
 
+        jButton10.setFont(new java.awt.Font("Segoe UI Light", 0, 18)); // NOI18N
+        jButton10.setText("Add Account");
+        jButton10.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton10ActionPerformed(evt);
+            }
+        });
+
+        jButton11.setFont(new java.awt.Font("Segoe UI Light", 0, 18)); // NOI18N
+        jButton11.setText("Add Loan");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -127,11 +148,15 @@ public class CustomerProfileForm extends javax.swing.JFrame {
                                 .addGroup(layout.createSequentialGroup()
                                     .addComponent(jLabel9)
                                     .addGap(45, 45, 45)
-                                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 144, Short.MAX_VALUE)
+                                        .addComponent(jButton10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                     .addGap(18, 18, 18)
                                     .addComponent(jLabel10)
                                     .addGap(45, 45, 45)
-                                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jButton11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))))
                 .addContainerGap(31, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -156,9 +181,13 @@ public class CustomerProfileForm extends javax.swing.JFrame {
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel10)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(28, 28, 28)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButton10)
+                    .addComponent(jButton11))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 48, Short.MAX_VALUE)
                 .addComponent(jButton8)
-                .addContainerGap(36, Short.MAX_VALUE))
+                .addGap(28, 28, 28))
         );
 
         pack();
@@ -168,6 +197,11 @@ public class CustomerProfileForm extends javax.swing.JFrame {
         if(evt.getClickCount() == 2)
             JOptionPane.showMessageDialog(rootPane, evt.getClickCount());
     }//GEN-LAST:event_jList1MouseClicked
+
+    private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
+        new AddAccountForm(jLabel6.getText()).setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jButton10ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -204,6 +238,8 @@ public class CustomerProfileForm extends javax.swing.JFrame {
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton10;
+    private javax.swing.JButton jButton11;
     private javax.swing.JButton jButton8;
     private javax.swing.JButton jButton9;
     private javax.swing.JLabel jLabel10;
