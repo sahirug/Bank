@@ -123,7 +123,7 @@ public class AddAccountForm extends javax.swing.JFrame {
         jTextField4.setFont(new java.awt.Font("Segoe UI Light", 0, 18)); // NOI18N
 
         jLabel9.setFont(new java.awt.Font("Segoe UI Light", 0, 18)); // NOI18N
-        jLabel9.setText("Rs.");
+        jLabel9.setText("LKR");
 
         jButton10.setFont(new java.awt.Font("Segoe UI Light", 0, 18)); // NOI18N
         jButton10.setText("Add Account");
@@ -169,8 +169,8 @@ public class AddAccountForm extends javax.swing.JFrame {
                                 .addComponent(jRadioButton1)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jRadioButton2))
-                            .addComponent(jTextField2, javax.swing.GroupLayout.DEFAULT_SIZE, 163, Short.MAX_VALUE)
-                            .addComponent(jTextField3, javax.swing.GroupLayout.DEFAULT_SIZE, 163, Short.MAX_VALUE)
+                            .addComponent(jTextField2)
+                            .addComponent(jTextField3)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addComponent(jLabel9)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -242,16 +242,19 @@ public class AddAccountForm extends javax.swing.JFrame {
             }
         }catch(IncompleteFieldsException e){
             JOptionPane.showMessageDialog(null, e.getMessage(), e.getErrorTitle(), JOptionPane.ERROR_MESSAGE); 
+        }catch(NumberFormatException e){ 
+            JOptionPane.showMessageDialog(null, "Please enter only numbers in the deposit field", "Error parsing deposit value: "+jTextField4.getText(), JOptionPane.ERROR_MESSAGE);            
         }
     }//GEN-LAST:event_jButton10ActionPerformed
 
-    public void validateFields() throws IncompleteFieldsException{
+    public void validateFields() throws IncompleteFieldsException, NumberFormatException{
         if("".equals(jTextField4.getText()) ){
             throw new IncompleteFieldsException();
         }
         if(jRadioButton2.isSelected() && jComboBox1.getSelectedIndex() == 0){
             throw new IncompleteFieldsException("Please set a maturity period");
         }
+        Double.parseDouble(jTextField4.getText());
     }
     
     /**

@@ -4,6 +4,9 @@
  */
 package AppForms;
 
+import bank.Account;
+import java.util.Random;
+
 /**
  *
  * @author User
@@ -15,10 +18,37 @@ public class AddLoanForm extends javax.swing.JFrame {
      */
     public AddLoanForm() {
         initComponents();
+        initRadioButtons();
+        checkLoanType();
+        loadLoanNumber();
+    }
+    
+    public AddLoanForm(String customerID) {
+        initComponents();
+        initRadioButtons();
+        checkLoanType();
+        loadLoanNumber();
+        jTextField3.setText(customerID);
+    }
+    
+    public void initRadioButtons(){
         buttonGroup1.add(jRadioButton1);
         buttonGroup1.add(jRadioButton2);
-        jRadioButton1.setSelected(true);
-        this.checkAccountType();
+        jRadioButton1.setSelected(true);        
+    }
+    
+    public void checkLoanType(){
+        if(jRadioButton2.isSelected()){
+            jComboBox1.setEnabled(true);
+        }else{
+            jComboBox1.setEnabled(false);
+        }
+    }
+    
+    public void loadLoanNumber(){
+        int accCount = Account.getNewAccountNumber();
+        Random rand = new Random();
+        jTextField2.setText(("ACC"+(rand.nextInt((9999 - 1000) + 1) + 1000)) + (accCount+1));
     }
     
     
@@ -107,10 +137,10 @@ public class AddLoanForm extends javax.swing.JFrame {
         jTextField4.setFont(new java.awt.Font("Segoe UI Light", 0, 18)); // NOI18N
 
         jLabel9.setFont(new java.awt.Font("Segoe UI Light", 0, 18)); // NOI18N
-        jLabel9.setText("Rs.");
+        jLabel9.setText("LKR");
 
         jLabel3.setFont(new java.awt.Font("Segoe UI Light", 1, 24)); // NOI18N
-        jLabel3.setText("Add Account");
+        jLabel3.setText("Add Loan");
 
         jLabel12.setFont(new java.awt.Font("Segoe UI Light", 0, 18)); // NOI18N
         jLabel12.setText("Choose Account");
@@ -130,42 +160,39 @@ public class AddLoanForm extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addGap(128, 128, 128)
-                        .addComponent(jLabel3)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
+                        .addGap(27, 27, 27)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                .addGap(27, 27, 27)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel6)
-                                    .addComponent(jLabel5)
-                                    .addComponent(jLabel8)
-                                    .addComponent(jLabel10, javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel7)
-                                    .addComponent(jLabel12, javax.swing.GroupLayout.Alignment.LEADING))
-                                .addGap(36, 36, 36)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jRadioButton1)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(jRadioButton2))
-                                    .addComponent(jTextField2)
-                                    .addComponent(jTextField3)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                        .addComponent(jLabel9)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(jTextField4))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(jLabel11, javax.swing.GroupLayout.DEFAULT_SIZE, 66, Short.MAX_VALUE))
-                                    .addComponent(jComboBox2, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addComponent(jLabel6)
+                            .addComponent(jLabel5)
+                            .addComponent(jLabel8)
+                            .addComponent(jLabel10, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel7)
+                            .addComponent(jLabel12, javax.swing.GroupLayout.Alignment.LEADING))
+                        .addGap(36, 36, 36)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jButton10)))
-                        .addGap(8, 8, 8)))
-                .addGap(49, 49, 49))
+                                .addComponent(jRadioButton1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jRadioButton2))
+                            .addComponent(jTextField2)
+                            .addComponent(jTextField3)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(jLabel9)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jTextField4))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jLabel11, javax.swing.GroupLayout.DEFAULT_SIZE, 66, Short.MAX_VALUE))
+                            .addComponent(jComboBox2, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton10)))
+                .addGap(57, 57, 57))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(148, 148, 148)
+                .addComponent(jLabel3)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -208,11 +235,11 @@ public class AddLoanForm extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jRadioButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jRadioButton1MouseClicked
-        this.checkAccountType();
+        this.checkLoanType();
     }//GEN-LAST:event_jRadioButton1MouseClicked
 
     private void jRadioButton2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jRadioButton2MouseClicked
-        this.checkAccountType();
+        this.checkLoanType();
     }//GEN-LAST:event_jRadioButton2MouseClicked
 
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
@@ -278,11 +305,4 @@ public class AddLoanForm extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField4;
     // End of variables declaration//GEN-END:variables
 
-    private void checkAccountType() {
-        if(jRadioButton2.isSelected()){
-            jComboBox2.setEnabled(true);
-        }else{
-            jComboBox2.setEnabled(false);
-        }
-    }
 }

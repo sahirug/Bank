@@ -118,6 +118,11 @@ public class CustomerProfileForm extends javax.swing.JFrame {
 
         jButton11.setFont(new java.awt.Font("Segoe UI Light", 0, 18)); // NOI18N
         jButton11.setText("Add Loan");
+        jButton11.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton11ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -202,6 +207,10 @@ public class CustomerProfileForm extends javax.swing.JFrame {
         new AddAccountForm(jLabel6.getText()).setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jButton10ActionPerformed
+
+    private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton11ActionPerformed
 
     /**
      * @param args the command line arguments
