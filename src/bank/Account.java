@@ -58,4 +58,38 @@ public class Account {
         System.out.println("hello from account class");
         return 0;
     }
+    
+    public static ResultSet getCustomerAccounts(String id){
+        String sql = "SELECT * FROM account WHERE customerID = '"+id+"'";
+        try {
+          return DB.search(sql);  
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), "System error", JOptionPane.ERROR_MESSAGE); 
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), "System error", JOptionPane.ERROR_MESSAGE); 
+        }
+        return null;
+    }
+    
+    public static String[] getFixedAccounts(String customerID){
+        String sql = "SELECT accountNumber, (select count(*) FROM account WHERE accountType='fixed' AND customerID='"+customerID+"') AS accCount FROM account WHERE accountType='fixed' AND customerID='"+customerID+"'";
+        try {
+            ResultSet rs = DB.search(sql);
+            if ( rs.next() ) {    
+                String fixedAcc[] = new String[rs.getInt(2)];
+                int i = 0;
+                do{
+                    fixedAcc[i++] = rs.getString(1);
+                }while(rs.next());
+                return fixedAcc;
+            }else{
+                return null;
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), "System error", JOptionPane.ERROR_MESSAGE); 
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), "System error", JOptionPane.ERROR_MESSAGE); 
+        }
+        return null;
+    }
 }

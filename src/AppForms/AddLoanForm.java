@@ -5,6 +5,7 @@
 package AppForms;
 
 import bank.Account;
+import bank.Loan;
 import java.util.Random;
 
 /**
@@ -23,7 +24,7 @@ public class AddLoanForm extends javax.swing.JFrame {
         loadLoanNumber();
     }
     
-    public AddLoanForm(String customerID) {
+    public AddLoanForm(String customerID, int accType) {
         initComponents();
         initRadioButtons();
         checkLoanType();
@@ -46,9 +47,9 @@ public class AddLoanForm extends javax.swing.JFrame {
     }
     
     public void loadLoanNumber(){
-        int accCount = Account.getNewAccountNumber();
+        int loanCount = Loan.getNewLoanNumber();
         Random rand = new Random();
-        jTextField2.setText(("ACC"+(rand.nextInt((9999 - 1000) + 1) + 1000)) + (accCount+1));
+        jTextField2.setText(("ACC"+(rand.nextInt((9999 - 1000) + 1) + 1000)) + (loanCount+1));
     }
     
     

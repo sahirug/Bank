@@ -4,7 +4,12 @@
  */
 package AppForms;
 
+import bank.Account;
 import bank.Customer;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.List;
+import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 
 /**
@@ -16,6 +21,7 @@ public class CustomerProfileForm extends javax.swing.JFrame {
     /**
      * Creates new form CustomerProfileForm
      */
+    
     public CustomerProfileForm() {
         initComponents();
     }
@@ -25,6 +31,21 @@ public class CustomerProfileForm extends javax.swing.JFrame {
         jLabel6.setText(customer.customerID());
         jTextField3.setText(customer.customerName());
         jTextField4.setText(customer.getContactNumber());
+        System.out.println(customer.getAccounts().size());
+        populateList(customer.getAccounts());
+    }
+    
+    private void populateList(List<Account> accounts) {
+        DefaultListModel listModel = new DefaultListModel();
+        if(accounts.size() > 0){
+            jList1.setEnabled(true);
+            for (int i = 0; i < accounts.size(); i++) {
+                listModel.addElement(accounts.get(i).getAccountNumber());
+            }
+        }else{
+            listModel.addElement("No Accounts");
+        }
+        jList1.setModel(listModel);
     }
 
     /**
@@ -200,7 +221,7 @@ public class CustomerProfileForm extends javax.swing.JFrame {
 
     private void jList1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jList1MouseClicked
         if(evt.getClickCount() == 2)
-            JOptionPane.showMessageDialog(rootPane, evt.getClickCount());
+            JOptionPane.showMessageDialog(rootPane, jList1.getSelectedValue().toString());
     }//GEN-LAST:event_jList1MouseClicked
 
     private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
@@ -209,7 +230,21 @@ public class CustomerProfileForm extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton10ActionPerformed
 
     private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
-        // TODO add your handling code here:
+//        new AddLoanForm(jLabel6.getText()).setVisible(true);
+//        this.dispose();
+        String options[] = {"Normal Loan", "FD Loan"};
+        switch(JOptionPane.showOptionDialog(rootPane, "What type of Loan would you like to create?", "Select Loan Type", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, rootPane)){
+            case 0:
+                new AddLoanForm(jLabel6.getText(), 0).setVisible(true);
+                break;
+            case 1: 
+                String acc[] = Account.getFixedAccounts(jLabel6.getText());
+                if(acc != null)
+                System.out.println(JOptionPane.showInputDialog(null, "Choose an account",
+        "Please select a fixed account", JOptionPane.QUESTION_MESSAGE, null, acc, acc[0]));
+                else JOptionPane.showMessageDialog(rootPane, "You do not have any fixed accounts!", "No accounts found", JOptionPane.ERROR_MESSAGE);
+                break;
+        }
     }//GEN-LAST:event_jButton11ActionPerformed
 
     /**
@@ -264,4 +299,6 @@ public class CustomerProfileForm extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextField4;
     // End of variables declaration//GEN-END:variables
+
+    
 }
