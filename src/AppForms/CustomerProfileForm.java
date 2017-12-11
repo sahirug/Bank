@@ -239,10 +239,16 @@ public class CustomerProfileForm extends javax.swing.JFrame {
                 break;
             case 1: 
                 String acc[] = Account.getFixedAccounts(jLabel6.getText());
-                if(acc != null)
-                System.out.println(JOptionPane.showInputDialog(null, "Choose an account",
-        "Please select a fixed account", JOptionPane.QUESTION_MESSAGE, null, acc, acc[0]));
-                else JOptionPane.showMessageDialog(rootPane, "You do not have any fixed accounts!", "No accounts found", JOptionPane.ERROR_MESSAGE);
+                if(acc != null){
+                    String accNo = "";
+                    try {
+                        accNo = JOptionPane.showInputDialog(null, "Choose an account", "Please select a fixed account", JOptionPane.QUESTION_MESSAGE, null, acc, acc[0]).toString();      
+                    } catch (NullPointerException e) {
+                    }
+                    if(!"".equals(accNo))
+                        new AddLoanForm(jLabel6.getText(), 1, accNo).setVisible(true);
+                }else 
+                    JOptionPane.showMessageDialog(rootPane, "You do not have any fixed accounts!", "No accounts found", JOptionPane.ERROR_MESSAGE);
                 break;
         }
     }//GEN-LAST:event_jButton11ActionPerformed
