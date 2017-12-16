@@ -22,6 +22,11 @@ public class Account {
         this.customerID = customerID;
         this.balance = balance;
     }
+    
+    public Account(String accountNumber){
+        this.accountNumber = accountNumber;
+        this.setBalance();
+    }
 
     public String getAccountNumber() {
         return accountNumber;
@@ -37,6 +42,77 @@ public class Account {
 
     public double getBalance() {
         return balance;
+    }
+    
+    public void setBalance(){
+        String sql = "SELECT balance FROM account WHERE accountNumber = '"+this.accountNumber+"'";
+        try {
+            ResultSet rs = DB.search(sql);
+            while(rs.next()){
+                this.balance = Double.parseDouble(rs.getString(1));
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), "System error", JOptionPane.ERROR_MESSAGE); 
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), "System error", JOptionPane.ERROR_MESSAGE); 
+        }
+        
+    }
+    
+    public static String getType(String accountNumber){
+        String sql = "SELECT accountType FROM account WHERE accountNumber = '"+accountNumber+"'";
+        try {
+            ResultSet rs = DB.search(sql);
+            while(rs.next()){
+                return (rs.getString(1));
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), "System error", JOptionPane.ERROR_MESSAGE); 
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), "System error", JOptionPane.ERROR_MESSAGE); 
+        }
+        return null;
+    }
+    
+    public static FixedAccount getFixedAccount(String accountNumber){
+        ResultSet rs = getAccount(accountNumber);
+        try {
+            if(rs.next()){
+                return new FixedAccount(accountNumber, rs.getString(5), rs.getString(7), Double.parseDouble(rs.getString(4)), rs.getString(3));
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), "System error", JOptionPane.ERROR_MESSAGE); 
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), "System error", JOptionPane.ERROR_MESSAGE); 
+        }
+        return null;
+    }
+    
+    public static SavingsAccount getSavingsAccount(String accountNumber){
+        ResultSet rs = getAccount(accountNumber);
+        try {
+            if(rs.next()){
+                return new SavingsAccount(accountNumber, rs.getString(5), rs.getString(7), Double.parseDouble(rs.getString(4)));
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), "System error", JOptionPane.ERROR_MESSAGE); 
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), "System error", JOptionPane.ERROR_MESSAGE); 
+        }
+        return null;
+    }
+    
+    private static ResultSet getAccount(String accountNumber){
+        String sql = "SELECT * FROM account WHERE accountNumber = '"+accountNumber+"'";
+        try {
+            return DB.search(sql);
+            
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), "System error", JOptionPane.ERROR_MESSAGE); 
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), "System error", JOptionPane.ERROR_MESSAGE); 
+        }
+        return null;
     }
     
     public static int getNewAccountNumber(){

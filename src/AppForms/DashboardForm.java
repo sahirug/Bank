@@ -152,6 +152,11 @@ public class DashboardForm extends javax.swing.JFrame {
         jLabel5.setText("Ref ID");
 
         jTextField2.setFont(new java.awt.Font("Segoe UI Light", 0, 18)); // NOI18N
+        jTextField2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField2ActionPerformed(evt);
+            }
+        });
 
         jButton11.setFont(new java.awt.Font("Segoe UI Light", 0, 18)); // NOI18N
         jButton11.setText(">");
@@ -282,6 +287,10 @@ public class DashboardForm extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(rootPane, "Please enter a reference ID", "Reference ID empty", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_jButton11ActionPerformed
+
+    private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
+        jButton11.doClick();
+    }//GEN-LAST:event_jTextField2ActionPerformed
 
     /**
      * @param args the command line arguments

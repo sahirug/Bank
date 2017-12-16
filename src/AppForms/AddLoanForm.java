@@ -4,11 +4,13 @@
  */
 package AppForms;
 
+import Exceptions.InsufficientFundsException;
 import bank.Account;
 import bank.Loan;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Random;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -39,6 +41,7 @@ public class AddLoanForm extends javax.swing.JFrame {
         showLabels(loanType);
         jTextField5.setText(accNo);
         loadDate();
+        getMaxLoan(accNo);
     }
     
     public void loadLoanNumber(){
@@ -71,7 +74,10 @@ public class AddLoanForm extends javax.swing.JFrame {
         }
     }
     
-    
+    public void getMaxLoan(String accountNumber){
+        Account account = new Account(accountNumber);
+        jLabel25.setText((0.7 * account.getBalance())+"");
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -116,7 +122,12 @@ public class AddLoanForm extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jComboBox1.setFont(new java.awt.Font("Segoe UI Light", 0, 18)); // NOI18N
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "3", "6", "12", "24", "36", "48", "60" }));
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Select duration", "3", "6", "12", "24", "36", "48", "60" }));
+        jComboBox1.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jComboBox1ItemStateChanged(evt);
+            }
+        });
         jComboBox1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBox1ActionPerformed(evt);
@@ -148,6 +159,11 @@ public class AddLoanForm extends javax.swing.JFrame {
         jLabel10.setText("Payback Period");
 
         jTextField4.setFont(new java.awt.Font("Segoe UI Light", 0, 18)); // NOI18N
+        jTextField4.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jTextField4FocusLost(evt);
+            }
+        });
 
         jLabel9.setFont(new java.awt.Font("Segoe UI Light", 0, 18)); // NOI18N
         jLabel9.setText("LKR");
@@ -166,7 +182,7 @@ public class AddLoanForm extends javax.swing.JFrame {
 
         jLabel14.setFont(new java.awt.Font("Segoe UI Light", 1, 14)); // NOI18N
         jLabel14.setForeground(new java.awt.Color(204, 0, 0));
-        jLabel14.setText("15.0%");
+        jLabel14.setText("15.0% p.a");
 
         jLabel15.setFont(new java.awt.Font("Segoe UI Light", 0, 14)); // NOI18N
         jLabel15.setText("Monthly");
@@ -212,20 +228,21 @@ public class AddLoanForm extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel13)
-                            .addComponent(jLabel15))
+                        .addComponent(jLabel15)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel14, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel18)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel16))))
+                        .addComponent(jLabel18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel16))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel19)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel21))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel23)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE)
+                        .addComponent(jLabel24)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel25))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel17)
@@ -233,11 +250,9 @@ public class AddLoanForm extends javax.swing.JFrame {
                             .addComponent(jLabel22))
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel23)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
-                        .addComponent(jLabel24)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel25)))
+                        .addComponent(jLabel13)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -272,7 +287,7 @@ public class AddLoanForm extends javax.swing.JFrame {
         );
 
         jLabel4.setFont(new java.awt.Font("Segoe UI Light", 0, 18)); // NOI18N
-        jLabel4.setText("fsf");
+        jLabel4.setText("<loan_type>");
 
         jTextField5.setEditable(false);
         jTextField5.setFont(new java.awt.Font("Segoe UI Light", 0, 18)); // NOI18N
@@ -305,7 +320,7 @@ public class AddLoanForm extends javax.swing.JFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jLabel11, javax.swing.GroupLayout.DEFAULT_SIZE, 139, Short.MAX_VALUE))
+                                .addComponent(jLabel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
@@ -316,7 +331,7 @@ public class AddLoanForm extends javax.swing.JFrame {
                                             .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE))
                                         .addComponent(jTextField3, javax.swing.GroupLayout.Alignment.LEADING))
                                     .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(0, 25, Short.MAX_VALUE)))
+                                .addGap(0, 0, Short.MAX_VALUE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addGap(26, 26, 26))
@@ -362,8 +377,40 @@ public class AddLoanForm extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
-        // TODO add your handling code here:
+        if(!"".equals(jTextField4.getText())){
+            try{
+                int months = Integer.parseInt(jComboBox1.getSelectedItem().toString());
+                double amount = Double.parseDouble(jTextField4.getText());
+                jLabel16.setText(Loan.getMonthlyPayment(months, amount)+"");
+            }catch(NumberFormatException e){
+                
+            }
+        }
     }//GEN-LAST:event_jComboBox1ActionPerformed
+
+    private void jTextField4FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextField4FocusLost
+        try {
+            double amount = Double.parseDouble(jTextField4.getText());
+            System.out.println("hello world");
+            if("FD Loan".equals(jLabel4.getText()) && amount > Double.parseDouble(jLabel25.getText()) ){
+                throw new InsufficientFundsException(amount);
+            }
+            jButton10.setEnabled(true);
+            jComboBox1.setEnabled(true);            
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(rootPane, "Error in Loan amount value. Please type only numbers", "Error parsing: "+jTextField4.getText(), JOptionPane.ERROR_MESSAGE);
+            jButton10.setEnabled(false);
+            jComboBox1.setEnabled(false);
+        } catch (InsufficientFundsException e){
+            JOptionPane.showMessageDialog(rootPane, e.getMessage(Double.parseDouble(jLabel25.getText()), e.getLoanAmount()), "Insufficient Funds", JOptionPane.ERROR_MESSAGE);
+            jButton10.setEnabled(false);
+            jComboBox1.setEnabled(false);
+        }
+    }//GEN-LAST:event_jTextField4FocusLost
+
+    private void jComboBox1ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBox1ItemStateChanged
+        
+    }//GEN-LAST:event_jComboBox1ItemStateChanged
 
     /**
      * @param args the command line arguments

@@ -4,6 +4,9 @@
  */
 package AppForms;
 
+import bank.Account;
+import bank.FixedAccount;
+import bank.SavingsAccount;
 import java.awt.Font;
 
 /**
@@ -19,6 +22,39 @@ public class AccountProfileForm extends javax.swing.JFrame {
         initComponents();
         jTable1.getTableHeader().setFont(new Font("Consolas", Font.PLAIN, 18));
     }
+    
+    public AccountProfileForm(FixedAccount account) {
+        initComponents();
+        jTable1.getTableHeader().setFont(new Font("Consolas", Font.PLAIN, 18));
+        this.setFixedAccountFields(account);
+    }
+    
+    public AccountProfileForm(SavingsAccount account) {
+        initComponents();
+        jTable1.getTableHeader().setFont(new Font("Consolas", Font.PLAIN, 18));
+        this.setSavingsAccountFields(account);
+    }
+    
+    public void setFixedAccountFields(FixedAccount account){
+        jPanel1.setVisible(false);
+        jLabel4.setText(account.getAccountNumber());
+        jLabel6.setText("Fixed");
+        jLabel8.setText(account.getCustomerID());
+        jLabel10.setText(account.getBalance()+"");
+        System.out.println(account.getMaturityPeriod());
+        jTable1.getColumnModel().getColumn(0).setHeaderValue("Month");
+        jTable1.getColumnModel().getColumn(1).setHeaderValue("Balance");
+        jTable1.getTableHeader().repaint();
+    }
+    
+    public void setSavingsAccountFields(SavingsAccount account){
+        jPanel1.setVisible(true);
+        jLabel4.setText(account.getAccountNumber());
+        jLabel6.setText("Savings");
+        jLabel8.setText(account.getCustomerID());
+        jLabel10.setText(account.getBalance()+"");        
+    }
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -46,31 +82,31 @@ public class AccountProfileForm extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jLabel3.setFont(new java.awt.Font("Segoe UI Light", 1, 24)); // NOI18N
         jLabel3.setText("Account #");
 
         jLabel4.setFont(new java.awt.Font("Segoe UI Light", 0, 18)); // NOI18N
-        jLabel4.setText("1234567890");
+        jLabel4.setText("jlabel4");
 
         jLabel5.setFont(new java.awt.Font("Segoe UI Light", 1, 18)); // NOI18N
         jLabel5.setText("Type: ");
 
         jLabel6.setFont(new java.awt.Font("Segoe UI Light", 0, 18)); // NOI18N
-        jLabel6.setText("Savings/Fixed");
+        jLabel6.setText("jlabel6");
 
         jLabel7.setFont(new java.awt.Font("Segoe UI Light", 1, 18)); // NOI18N
         jLabel7.setText("Account Holder: ");
 
         jLabel8.setFont(new java.awt.Font("Segoe UI Light", 0, 18)); // NOI18N
-        jLabel8.setText("Customer Name");
+        jLabel8.setText("jlabel8");
 
         jLabel9.setFont(new java.awt.Font("Segoe UI Light", 1, 18)); // NOI18N
         jLabel9.setText("Account Balance: ");
 
         jLabel10.setFont(new java.awt.Font("Segoe UI Light", 0, 18)); // NOI18N
-        jLabel10.setText("000000.00");
+        jLabel10.setText("jlabel10");
 
         jPanel1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 

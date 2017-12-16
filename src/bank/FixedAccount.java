@@ -5,6 +5,7 @@
 package bank;
 
 import java.sql.SQLException;
+import java.text.DecimalFormat;
 import javax.swing.JOptionPane;
 
 /**
@@ -12,7 +13,7 @@ import javax.swing.JOptionPane;
  * @author User
  */
 public class FixedAccount extends Account{
-    public String maturityPeriod;
+    private String maturityPeriod;
 
     public FixedAccount(String accountNumber, String lastAccessed, String customerID, double balance, String maturityPeriod) {
         super(accountNumber, lastAccessed, customerID, balance);
@@ -41,6 +42,11 @@ public class FixedAccount extends Account{
             JOptionPane.showMessageDialog(null, e.getMessage(), "System error", JOptionPane.ERROR_MESSAGE); 
         }
         return 0;
+    }
+    
+    public static double getFinalAmount(int months, double amount, double rate){
+        double finalAmount = amount * Math.pow((1 + (rate/1200)), months);
+        return Double.parseDouble(new DecimalFormat("#.00").format(finalAmount));
     }
     
 }
