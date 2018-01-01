@@ -4,10 +4,22 @@
  */
 package AppForms;
 
+import Exceptions.InsufficientFundsException;
 import bank.Account;
+import bank.CurrentDate;
+import bank.DB;
 import bank.FixedAccount;
 import bank.SavingsAccount;
+import java.awt.Color;
+import java.awt.Component;
 import java.awt.Font;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Vector;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableCellRenderer;
 
 /**
  *
@@ -33,6 +45,7 @@ public class AccountProfileForm extends javax.swing.JFrame {
         initComponents();
         jTable1.getTableHeader().setFont(new Font("Consolas", Font.PLAIN, 18));
         this.setSavingsAccountFields(account);
+        this.loadTable(account.getAccountNumber());
     }
     
     public void setFixedAccountFields(FixedAccount account){
@@ -55,7 +68,47 @@ public class AccountProfileForm extends javax.swing.JFrame {
         jLabel10.setText(account.getBalance()+"");        
     }
     
-
+    private void loadTable(String accNo){
+        String sql = "SELECT * FROM transactions WHERE accountNumber = '"+accNo+"'";
+        System.out.println(sql);
+        DefaultTableModel dtm = (DefaultTableModel) jTable1.getModel();
+        try {
+           ResultSet rs = DB.search(sql);
+           while(rs.next()){
+               Vector v = new Vector();
+               v.add(rs.getString(5));
+               v.add(rs.getString(3));
+               v.add(rs.getString(4));
+               dtm.addRow(v);
+           }
+           getNewRenderedTable(jTable1);
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), "System error", JOptionPane.ERROR_MESSAGE); 
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), "System error", JOptionPane.ERROR_MESSAGE); 
+        }
+        
+    }
+    
+    private static JTable getNewRenderedTable(final JTable table) {
+        table.setDefaultRenderer(Object.class, new DefaultTableCellRenderer(){
+            @Override
+            public Component getTableCellRendererComponent(JTable table,
+                    Object value, boolean isSelected, boolean hasFocus, int row, int col) {
+                super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, col);
+                String status = (String)table.getModel().getValueAt(row, 2);
+                if ("deposit".equals(status)) {
+                    setBackground(Color.GREEN);
+                    setForeground(Color.DARK_GRAY);
+                } else {
+                    setBackground(Color.RED);
+                    setForeground(Color.DARK_GRAY);
+                }       
+                return this;
+            }   
+        });
+        return table;
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -115,9 +168,19 @@ public class AccountProfileForm extends javax.swing.JFrame {
 
         jButton10.setFont(new java.awt.Font("Segoe UI Light", 0, 18)); // NOI18N
         jButton10.setText("Withdraw");
+        jButton10.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton10ActionPerformed(evt);
+            }
+        });
 
         jButton11.setFont(new java.awt.Font("Segoe UI Light", 0, 18)); // NOI18N
         jButton11.setText("Deposit");
+        jButton11.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton11ActionPerformed(evt);
+            }
+        });
 
         jButton12.setFont(new java.awt.Font("Segoe UI Light", 0, 18)); // NOI18N
         jButton12.setText("Close");
@@ -162,11 +225,11 @@ public class AccountProfileForm extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Date", "Transaction Type"
+                "Date", "Amount", "Type"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false
+                false, true, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -175,7 +238,7 @@ public class AccountProfileForm extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(jTable1);
         jTable1.getColumnModel().getColumn(0).setResizable(false);
-        jTable1.getColumnModel().getColumn(1).setResizable(false);
+        jTable1.getColumnModel().getColumn(2).setResizable(false);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -235,6 +298,47 @@ public class AccountProfileForm extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
+        try{
+            double value = Double.parseDouble(JOptionPane.showInputDialog(rootPane, "Please enter a value you would like to deposit", "Deposite Money", JOptionPane.INFORMATION_MESSAGE));
+            Account account = new Account(jLabel4.getText());
+            jLabel10.setText(account.deposit(value)+"");
+            DefaultTableModel dtm = (DefaultTableModel) jTable1.getModel();
+            Vector v = new Vector();
+            v.add(new CurrentDate().getDate());
+            v.add(value);
+            v.add("deposit");
+            dtm.addRow(v);
+            getNewRenderedTable(jTable1);
+        }catch(NumberFormatException e){
+            JOptionPane.showMessageDialog(rootPane, "Please enter a valid amount!", "Parse error", JOptionPane.ERROR_MESSAGE);
+        }catch(NullPointerException e){
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_jButton11ActionPerformed
+
+    private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
+        try{
+            double value = Double.parseDouble(JOptionPane.showInputDialog(rootPane, "Please enter a value you would like to withdraw", "Withdraw Money", JOptionPane.INFORMATION_MESSAGE));
+            Account account = new Account(jLabel4.getText());
+            try {
+                jLabel10.setText(account.withdraw(value)+"");
+                DefaultTableModel dtm = (DefaultTableModel) jTable1.getModel();
+                Vector v = new Vector();
+                v.add(new CurrentDate().getDate());
+                v.add(value);
+                v.add("withdrawal");
+                dtm.addRow(v);
+            } catch (InsufficientFundsException e) {
+                JOptionPane.showMessageDialog(rootPane, e.getMessage(), "Insufficient Funds", JOptionPane.ERROR_MESSAGE);
+            }
+        }catch(NumberFormatException e){
+            JOptionPane.showMessageDialog(rootPane, "Please enter a valid amount!", "Parse error", JOptionPane.ERROR_MESSAGE);
+        }catch(NullPointerException e){
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_jButton10ActionPerformed
 
     /**
      * @param args the command line arguments
