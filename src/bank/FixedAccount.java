@@ -49,4 +49,15 @@ public class FixedAccount extends Account{
         return Double.parseDouble(new DecimalFormat("#.00").format(finalAmount));
     }
     
+    public double[] getCompoundInterest(){
+        double newAmount = this.balance;
+        double monthlyBalance[] = new double[Integer.parseInt(this.getMaturityPeriod())];
+        for(int i = 0; i < Integer.parseInt(this.getMaturityPeriod()); i++){
+           newAmount = newAmount + (newAmount * (0.15/12));
+//            System.out.println(new DecimalFormat("#.00").format(newAmount));
+            monthlyBalance[i] = Double.parseDouble(new DecimalFormat("#.00").format(newAmount));
+        }
+        return monthlyBalance;
+    }
+    
 }

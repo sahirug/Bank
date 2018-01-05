@@ -20,6 +20,7 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.TableColumn;
 
 /**
  *
@@ -30,6 +31,7 @@ public class AccountProfileForm extends javax.swing.JFrame {
     /**
      * Creates new form AccountProfileForm
      */
+    DefaultTableModel dtm = new DefaultTableModel();
     public AccountProfileForm() {
         initComponents();
         jTable1.getTableHeader().setFont(new Font("Consolas", Font.PLAIN, 18));
@@ -55,9 +57,11 @@ public class AccountProfileForm extends javax.swing.JFrame {
         jLabel8.setText(account.getCustomerID());
         jLabel10.setText(account.getBalance()+"");
         System.out.println(account.getMaturityPeriod());
-        jTable1.getColumnModel().getColumn(0).setHeaderValue("Month");
-        jTable1.getColumnModel().getColumn(1).setHeaderValue("Balance");
-        jTable1.getTableHeader().repaint();
+        double monthlyPayments[] = account.getCompoundInterest();
+        jTable1.setModel(dtm);
+        dtm.addColumn("Month");
+        dtm.addColumn("Balance");
+        this.loadTable(monthlyPayments);
     }
     
     public void setSavingsAccountFields(SavingsAccount account){
@@ -65,7 +69,11 @@ public class AccountProfileForm extends javax.swing.JFrame {
         jLabel4.setText(account.getAccountNumber());
         jLabel6.setText("Savings");
         jLabel8.setText(account.getCustomerID());
-        jLabel10.setText(account.getBalance()+"");        
+        jLabel10.setText(account.getBalance()+"");
+        jTable1.setModel(dtm);
+        dtm.addColumn("Date");
+        dtm.addColumn("Amount");
+        dtm.addColumn("Type");
     }
     
     private void loadTable(String accNo){
@@ -90,19 +98,32 @@ public class AccountProfileForm extends javax.swing.JFrame {
         
     }
     
+    private void loadTable(double monthlyPayments[]){
+//        DefaultTableModel dtm = (DefaultTableModel) jTable1.getModel();
+        for (int i = 0; i < monthlyPayments.length; i++) {
+            Vector v = new Vector();
+            v.add(((i+1)+""));
+            v.add(monthlyPayments[i]);
+            dtm.addRow(v);
+            System.out.println(monthlyPayments[i]);
+        }
+    }
+    
     private static JTable getNewRenderedTable(final JTable table) {
         table.setDefaultRenderer(Object.class, new DefaultTableCellRenderer(){
             @Override
             public Component getTableCellRendererComponent(JTable table,
                     Object value, boolean isSelected, boolean hasFocus, int row, int col) {
                 super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, col);
-                String status = (String)table.getModel().getValueAt(row, 2);
-                if ("deposit".equals(status)) {
-                    setBackground(Color.GREEN);
-                    setForeground(Color.DARK_GRAY);
-                } else {
-                    setBackground(Color.RED);
-                    setForeground(Color.DARK_GRAY);
+                if(table.getModel().getColumnCount() == 3){
+                    String status = (String)table.getModel().getValueAt(row, 2);
+                    if ("deposit".equals(status)) {
+                        setBackground(Color.GREEN);
+                        setForeground(Color.DARK_GRAY);
+                    } else {
+                        setBackground(Color.RED);
+                        setForeground(Color.DARK_GRAY);
+                    }
                 }       
                 return this;
             }   
@@ -184,6 +205,11 @@ public class AccountProfileForm extends javax.swing.JFrame {
 
         jButton12.setFont(new java.awt.Font("Segoe UI Light", 0, 18)); // NOI18N
         jButton12.setText("Close");
+        jButton12.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton12ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -225,20 +251,10 @@ public class AccountProfileForm extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Date", "Amount", "Type"
-            }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false, true, false
-            };
 
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
             }
-        });
+        ));
         jScrollPane1.setViewportView(jTable1);
-        jTable1.getColumnModel().getColumn(0).setResizable(false);
-        jTable1.getColumnModel().getColumn(2).setResizable(false);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -302,7 +318,7 @@ public class AccountProfileForm extends javax.swing.JFrame {
     private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
         try{
             double value = Double.parseDouble(JOptionPane.showInputDialog(rootPane, "Please enter a value you would like to deposit", "Deposite Money", JOptionPane.INFORMATION_MESSAGE));
-            Account account = new Account(jLabel4.getText());
+            SavingsAccount account = new SavingsAccount(jLabel4.getText());
             jLabel10.setText(account.deposit(value)+"");
             DefaultTableModel dtm = (DefaultTableModel) jTable1.getModel();
             Vector v = new Vector();
@@ -321,7 +337,7 @@ public class AccountProfileForm extends javax.swing.JFrame {
     private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
         try{
             double value = Double.parseDouble(JOptionPane.showInputDialog(rootPane, "Please enter a value you would like to withdraw", "Withdraw Money", JOptionPane.INFORMATION_MESSAGE));
-            Account account = new Account(jLabel4.getText());
+            SavingsAccount account = new SavingsAccount(jLabel4.getText());
             try {
                 jLabel10.setText(account.withdraw(value)+"");
                 DefaultTableModel dtm = (DefaultTableModel) jTable1.getModel();
@@ -339,6 +355,19 @@ public class AccountProfileForm extends javax.swing.JFrame {
             e.printStackTrace();
         }
     }//GEN-LAST:event_jButton10ActionPerformed
+
+    private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton12ActionPerformed
+        int x = JOptionPane.showConfirmDialog(rootPane, "Are you sure you want to close this account?", "Close Account", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+        //yes = 0 no = 1
+        if(x == 0){
+            String sql = "DELETE FROM transactions WHERE accountNumber='"+jLabel4.getText()+"'";
+            try {
+                
+            } catch (Exception e) {
+            }
+        }
+        
+    }//GEN-LAST:event_jButton12ActionPerformed
 
     /**
      * @param args the command line arguments
