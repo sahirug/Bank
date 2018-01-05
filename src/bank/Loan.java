@@ -14,10 +14,22 @@ import javax.swing.JOptionPane;
  * @author User
  */
 public class Loan {
-    private Customer customer;
-    private double loanAmount, monthlyInstallment;
-    private int paybackPeriod;
-    private String monthlyDeadline;
+    protected double loanAmount, monthlyInstallment;
+    protected int paybackPeriod, monthlyDeadline;
+    protected String customerNumber, loanNumber;
+
+    public Loan(String customerNumber, double loanAmount, double monthlyInstallment, int paybackPeriod, int monthlyDeadline, String loanNumber) {
+        this.customerNumber = customerNumber;
+        this.loanAmount = loanAmount;
+        this.monthlyInstallment = monthlyInstallment;
+        this.paybackPeriod = paybackPeriod;
+        this.monthlyDeadline = monthlyDeadline;
+        this.loanNumber = loanNumber;
+    }
+    
+    public int createLoan(){
+        return 0;
+    }
     
     public static int getNewLoanNumber(){
         String sql = "SELECT count(*) FROM loan";

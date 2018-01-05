@@ -11,18 +11,19 @@ import javax.swing.JOptionPane;
  *
  * @author User
  */
-public class NormalLoan extends Loan{
-
-    public NormalLoan(String customerNumber, double loanAmount, double monthlyInstallment, int paybackPeriod, int monthlyDeadline, String loanNumber) {
+public class FDLoan extends Loan{
+    private String accountNumber;
+    public FDLoan(String customerNumber, double loanAmount, double monthlyInstallment, int paybackPeriod, int monthlyDeadline, String loanNumber, String accountNumber) {
         super(customerNumber, loanAmount, monthlyInstallment, paybackPeriod, monthlyDeadline, loanNumber);
+        this.accountNumber = accountNumber;
     }
-    
+
     @Override
     public int createLoan() {
-        String sql = "INSERT INTO loan(loannumber, customerNumber, loanAmount, installment ,paybackPeriod, monthlydeadline, type) VALUES('"+this.loanNumber+"', '"+this.customerNumber+"', "+this.loanAmount+", "+this.monthlyInstallment+", '"+this.paybackPeriod+"', "+this.monthlyDeadline+", 'Normal')";
+        String sql = "INSERT INTO loan(loannumber, customerNumber, loanAmount, installment ,paybackPeriod, monthlydeadline, accountNumber, type) VALUES('"+this.loanNumber+"', '"+this.customerNumber+"', "+this.loanAmount+", "+this.monthlyInstallment+", '"+this.paybackPeriod+"', "+this.monthlyDeadline+", '"+this.accountNumber+"', 'FD')";
         System.out.println(sql);
         try {
-            return DB.insertUpdateDelete(sql);
+            return DB.insertUpdateDelete(sql);//return value when loan create success
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, e.getMessage(), "System error", JOptionPane.ERROR_MESSAGE); 
         } catch (Exception e) {
@@ -30,4 +31,7 @@ public class NormalLoan extends Loan{
         }
         return 0;
     }
+    
+    
+    
 }

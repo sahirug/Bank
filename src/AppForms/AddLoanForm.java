@@ -4,9 +4,12 @@
  */
 package AppForms;
 
+import Exceptions.IncompleteFieldsException;
 import Exceptions.InsufficientFundsException;
 import bank.Account;
+import bank.FDLoan;
 import bank.Loan;
+import bank.NormalLoan;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Random;
@@ -417,9 +420,34 @@ public class AddLoanForm extends javax.swing.JFrame {
         
     }//GEN-LAST:event_jComboBox1ItemStateChanged
 
+    private boolean validateFields(){
+        if("".equals(jTextField4.getText()) || jComboBox1.getSelectedIndex() == 0){
+            return false;
+        }
+        return true;
+    }
+    
     private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
-        String sql = "INSERT INTO loan VALUES('"+jTextField2.getText()+"', '"+jTextField3.getText()+"', "+Double.parseDouble(jTextField4.getText())+", "+Double.parseDouble(jLabel16.getText())+", '"+jComboBox1.getSelectedItem().toString()+"', "+Integer.parseInt(jLabel21.getText())+")";
-        System.out.println(sql);
+        try{
+            if(this.validateFields()){
+                Loan loan;
+//                String sql = "INSERT INTO loan(loannumber, customerNumber, loanAmount, installment ,paybackPeriod, monthlydeadline, accountNumber, loan) VALUES('"+jTextField2.getText()+"', '"+jTextField3.getText()+"', "+Double.parseDouble(jTextField4.getText())+", "+Double.parseDouble(jLabel16.getText())+", '"+Integer.parseInt(jComboBox1.getSelectedItem().toString())+"', "+Integer.parseInt(jLabel21.getText())+", "+accountNumber+")";
+                if("Normal Loan".equals(jLabel4.getText())){
+                    loan = new NormalLoan(jTextField3.getText(), Double.parseDouble(jTextField4.getText()), Double.parseDouble(jLabel16.getText()), Integer.parseInt(jComboBox1.getSelectedItem().toString()), Integer.parseInt(jLabel21.getText()), jTextField2.getText());
+                }else{
+                    loan = new FDLoan(jTextField3.getText(), Double.parseDouble(jTextField4.getText()), Double.parseDouble(jLabel16.getText()), Integer.parseInt(jComboBox1.getSelectedItem().toString()), Integer.parseInt(jLabel21.getText()), jTextField2.getText(), jTextField5.getText());
+                }
+                if(){
+                    
+                }catch(){
+                    
+                }
+            }else{
+                throw new IncompleteFieldsException();
+            }
+        }catch(IncompleteFieldsException e){
+            JOptionPane.showMessageDialog(rootPane, e.getMessage(), "Incomplete Fields", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_jButton10ActionPerformed
 
     /**
