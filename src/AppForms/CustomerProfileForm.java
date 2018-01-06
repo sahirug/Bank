@@ -87,7 +87,6 @@ public class CustomerProfileForm extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         jList2 = new javax.swing.JList();
         jLabel10 = new javax.swing.JLabel();
-        jButton8 = new javax.swing.JButton();
         jButton10 = new javax.swing.JButton();
         jButton11 = new javax.swing.JButton();
 
@@ -147,9 +146,6 @@ public class CustomerProfileForm extends javax.swing.JFrame {
         jLabel10.setFont(new java.awt.Font("Segoe UI Light", 0, 18)); // NOI18N
         jLabel10.setText("Loans: ");
 
-        jButton8.setFont(new java.awt.Font("Segoe UI Light", 0, 18)); // NOI18N
-        jButton8.setText("Delete Customer");
-
         jButton10.setFont(new java.awt.Font("Segoe UI Light", 0, 18)); // NOI18N
         jButton10.setText("Add Account");
         jButton10.addActionListener(new java.awt.event.ActionListener() {
@@ -199,9 +195,6 @@ public class CustomerProfileForm extends javax.swing.JFrame {
                 .addComponent(jButton10, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(89, 89, 89)
                 .addComponent(jButton11, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(421, 421, 421)
-                .addComponent(jButton8))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -234,8 +227,7 @@ public class CustomerProfileForm extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jButton10)
                     .addComponent(jButton11))
-                .addGap(48, 48, 48)
-                .addComponent(jButton8))
+                .addGap(81, 81, 81))
         );
 
         pack();
@@ -349,7 +341,6 @@ public class CustomerProfileForm extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton10;
     private javax.swing.JButton jButton11;
-    private javax.swing.JButton jButton8;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;

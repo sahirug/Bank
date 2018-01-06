@@ -49,9 +49,9 @@ public class LoanProfileForm extends javax.swing.JFrame {
         jLabel16.setText(loan.getPaybackPeriod()+"");
         jLabel20.setText(loan.getMonthlyInstallment()+"");
         this.monthlyDeadline = loan.getMonthlyDeadline();
-        jLabel14.setText(getBalancePayable());
         loan.setInstallments();
         loadTable(loan.getInstallments());
+        jLabel14.setText(getBalancePayable());
     }
     
     private void loadTable(List<Installment> installments){
@@ -69,7 +69,7 @@ public class LoanProfileForm extends javax.swing.JFrame {
         double amountPaid = Double.parseDouble(jLabel18.getText()) * Double.parseDouble(jLabel20.getText());
         System.out.println(amountPaid);
         double balancePayable = ((Double.parseDouble(jLabel20.getText())) * Double.parseDouble(jLabel16.getText())) - amountPaid;
-        System.out.println(new DecimalFormat("#.00").format(balancePayable));
+//        System.out.println(new DecimalFormat("#.00").format(balancePayable));
         return (new DecimalFormat("#.00").format(balancePayable));
     }
 
@@ -366,19 +366,24 @@ public class LoanProfileForm extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton10ActionPerformed
 
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
-        // TODO add your handling code here:
+        settleLoan();
     }//GEN-LAST:event_jButton9ActionPerformed
 
     private void checkIfSettled(){
         int noOfInstallments = Integer.parseInt(jLabel18.getText());
         noOfInstallments++;
         jLabel18.setText(noOfInstallments+"");
+        jLabel14.setText(getBalancePayable());
         if(noOfInstallments == Integer.parseInt(jLabel16.getText())){
-            Loan loan = new Loan(jLabel4.getText());
-            loan.settleLoan();
-            JOptionPane.showMessageDialog(rootPane, "Loan has been settled!", "Loan payments complete", JOptionPane.INFORMATION_MESSAGE);
-            this.dispose();
+            settleLoan();
         }
+    }
+    
+    private void settleLoan(){
+        Loan loan = new Loan(jLabel4.getText());
+        loan.settleLoan();
+        JOptionPane.showMessageDialog(rootPane, "Loan has been settled!", "Loan payments complete", JOptionPane.INFORMATION_MESSAGE);
+        this.dispose();
     }
     
     /**
