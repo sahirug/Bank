@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 06, 2018 at 10:41 AM
+-- Generation Time: Jan 06, 2018 at 09:26 PM
 -- Server version: 10.1.10-MariaDB
 -- PHP Version: 7.1.11
 
@@ -100,6 +100,29 @@ INSERT INTO `employee` (`employeeID`, `employeeName`, `designation`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `installment`
+--
+
+CREATE TABLE `installment` (
+  `id` int(11) NOT NULL,
+  `loanNumber` varchar(10) NOT NULL,
+  `installmentAmount` double(10,2) NOT NULL,
+  `date` date NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `installment`
+--
+
+INSERT INTO `installment` (`id`, `loanNumber`, `installmentAmount`, `date`) VALUES
+(1, 'LN55892', 492.71, '2018-01-08'),
+(2, 'LN55892', 447.92, '2018-01-03'),
+(3, 'LN55892', 447.92, '2018-01-02'),
+(4, 'LN55892', 492.71, '2018-01-18');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `loan`
 --
 
@@ -119,10 +142,11 @@ CREATE TABLE `loan` (
 --
 
 INSERT INTO `loan` (`loanNumber`, `customerNumber`, `loanAmount`, `installment`, `paybackPeriod`, `monthlyDeadline`, `accountNumber`, `type`) VALUES
-('LN25261', 'CUS1', 2500.00, 864.58, 3, 6, 'ACC31346', 'FD'),
 ('LN55892', 'CUS1', 2500.00, 447.92, 6, 6, 'ACC39667', 'FD'),
+('LN74075', 'CUS3', 12000.00, 2150.00, 6, 6, NULL, 'Normal'),
+('LN80754', 'CUS2', 5000.00, 895.83, 6, 6, NULL, 'Normal'),
 ('LN82543', 'CUS1', 26000.00, 2491.67, 12, 6, NULL, 'Normal'),
-('LN80754', 'CUS2', 5000.00, 895.83, 6, 6, NULL, 'Normal');
+('LN91736', 'CUS4', 32532.00, 3117.65, 12, 6, NULL, 'Normal');
 
 -- --------------------------------------------------------
 
@@ -213,9 +237,17 @@ ALTER TABLE `employee`
   ADD PRIMARY KEY (`employeeID`);
 
 --
+-- Indexes for table `installment`
+--
+ALTER TABLE `installment`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `loanNumber` (`loanNumber`);
+
+--
 -- Indexes for table `loan`
 --
 ALTER TABLE `loan`
+  ADD PRIMARY KEY (`loanNumber`),
   ADD KEY `customerNumber` (`customerNumber`),
   ADD KEY `accountNumber` (`accountNumber`);
 
@@ -238,6 +270,11 @@ ALTER TABLE `user`
 --
 
 --
+-- AUTO_INCREMENT for table `installment`
+--
+ALTER TABLE `installment`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+--
 -- AUTO_INCREMENT for table `transactions`
 --
 ALTER TABLE `transactions`
@@ -251,6 +288,12 @@ ALTER TABLE `transactions`
 --
 ALTER TABLE `account`
   ADD CONSTRAINT `account_ibfk_1` FOREIGN KEY (`customerID`) REFERENCES `customer` (`customerID`);
+
+--
+-- Constraints for table `installment`
+--
+ALTER TABLE `installment`
+  ADD CONSTRAINT `installment_ibfk_1` FOREIGN KEY (`loanNumber`) REFERENCES `loan` (`loanNumber`);
 
 --
 -- Constraints for table `loan`
