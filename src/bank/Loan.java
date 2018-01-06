@@ -18,6 +18,10 @@ public class Loan {
     protected int paybackPeriod, monthlyDeadline;
     protected String customerNumber, loanNumber;
 
+    public Loan(){
+        
+    }
+    
     public Loan(String customerNumber, double loanAmount, double monthlyInstallment, int paybackPeriod, int monthlyDeadline, String loanNumber) {
         this.customerNumber = customerNumber;
         this.loanAmount = loanAmount;
@@ -34,8 +38,43 @@ public class Loan {
     public String getLoanNumber() {
         return loanNumber;
     }
+
+    public String getCustomerNumber() {
+        return customerNumber;
+    }
+
+    public double getLoanAmount() {
+        return loanAmount;
+    }
+
+    public double getMonthlyInstallment() {
+        return monthlyInstallment;
+    }
+
+    public int getPaybackPeriod() {
+        return paybackPeriod;
+    }
+
+    public int getMonthlyDeadline() {
+        return monthlyDeadline;
+    }
     
     
+    
+    public static String getType(String loanNumber){
+        String sql = "SELECT type FROM loan WHERE loanNumber = '"+loanNumber+"'";
+        try {
+            ResultSet rs = DB.search(sql);
+            if(rs.next()){
+                return rs.getString(1); 
+           }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), "System error", JOptionPane.ERROR_MESSAGE); 
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), "System error", JOptionPane.ERROR_MESSAGE); 
+        }
+        return null;
+    }
     
     public static int getNewLoanNumber(){
         String sql = "SELECT count(*) FROM loan";

@@ -6,7 +6,9 @@ package AppForms;
 
 import bank.Account;
 import bank.Customer;
+import bank.FDLoan;
 import bank.Loan;
+import bank.NormalLoan;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
@@ -136,6 +138,11 @@ public class CustomerProfileForm extends javax.swing.JFrame {
             public Object getElementAt(int i) { return strings[i]; }
         });
         jList2.setEnabled(false);
+        jList2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jList2MouseClicked(evt);
+            }
+        });
         jScrollPane2.setViewportView(jList2);
 
         jLabel10.setFont(new java.awt.Font("Segoe UI Light", 0, 18)); // NOI18N
@@ -291,6 +298,26 @@ public class CustomerProfileForm extends javax.swing.JFrame {
                 break;
         }
     }//GEN-LAST:event_jButton11ActionPerformed
+
+    private void jList2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jList2MouseClicked
+        if(evt.getClickCount() == 2){
+            String loanType = Loan.getType(jList2.getSelectedValue().toString());
+            LoanProfileForm loanProfileForm;
+            Loan loan;
+            switch(loanType){
+                case "FD":
+                    loan = new FDLoan(jList2.getSelectedValue().toString());
+                    loanProfileForm = new LoanProfileForm(loan);
+                    loanProfileForm.setVisible(true);                    
+                    break;
+                case "Normal":
+                    loan = new NormalLoan(jList2.getSelectedValue().toString());
+                    loanProfileForm = new LoanProfileForm(loan);
+                    loanProfileForm.setVisible(true);                    
+                    break;
+            }
+        }
+    }//GEN-LAST:event_jList2MouseClicked
 
     /**
      * @param args the command line arguments
