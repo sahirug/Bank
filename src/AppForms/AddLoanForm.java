@@ -437,10 +437,9 @@ public class AddLoanForm extends javax.swing.JFrame {
                 }else{
                     loan = new FDLoan(jTextField3.getText(), Double.parseDouble(jTextField4.getText()), Double.parseDouble(jLabel16.getText()), Integer.parseInt(jComboBox1.getSelectedItem().toString()), Integer.parseInt(jLabel21.getText()), jTextField2.getText(), jTextField5.getText());
                 }
-                if(){
-                    
-                }catch(){
-                    
+                if(loan.createLoan() == 1){
+                    JOptionPane.showMessageDialog(rootPane, "Loan added!", "Successful Loan add", JOptionPane.INFORMATION_MESSAGE);
+                    this.dispose();
                 }
             }else{
                 throw new IncompleteFieldsException();

@@ -17,7 +17,7 @@ import javax.swing.JOptionPane;
 public class Customer{
     private String customerName, customerID, contactNumber;
     List<Account> accounts;
-    List<Loan> loans;
+    private List<Loan> loans;
 
     public Customer(String customerName, String customerID, String contactNumber) {
         this.customerName = customerName;
@@ -30,6 +30,7 @@ public class Customer{
         this.customerID = customerID;
         this.contactNumber = contactNumber;
         this.accounts = accounts;
+        setLoans(customerID);
     }
 
     public String customerName() {
@@ -68,6 +69,30 @@ public class Customer{
         }
         return null;
     }
+
+    public void setLoans(String customerNumber) {
+        String sql = "SELECT * from loan WHERE customerNumber = '"+customerNumber+"'";
+        this.loans = new ArrayList<>();
+        try {
+            ResultSet rs = DB.search(sql);
+            while(rs.next()){
+                System.out.println("fshf");
+                Loan loan = new Loan(rs.getString(2), Double.parseDouble(rs.getString(3)), Double.parseDouble(rs.getString(4)), Integer.parseInt(rs.getString(5)), Integer.parseInt(rs.getString(6)), rs.getString(1));
+                this.loans.add(loan);
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), "System error1", JOptionPane.ERROR_MESSAGE); 
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), "System error2", JOptionPane.ERROR_MESSAGE); 
+        }
+    }
+
+    public List<Loan> getLoans() {
+        return loans;
+    }
+    
+    
+    
     
     
     

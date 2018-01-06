@@ -10,11 +10,13 @@ import bank.CurrentDate;
 import bank.DB;
 import bank.FixedAccount;
 import bank.SavingsAccount;
+import bank.Transaction;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Vector;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -77,25 +79,18 @@ public class AccountProfileForm extends javax.swing.JFrame {
     }
     
     private void loadTable(String accNo){
-        String sql = "SELECT * FROM transactions WHERE accountNumber = '"+accNo+"'";
-        System.out.println(sql);
+        SavingsAccount account = new SavingsAccount(accNo);
+        List<Transaction> transactions = account.getTransactions();
         DefaultTableModel dtm = (DefaultTableModel) jTable1.getModel();
-        try {
-           ResultSet rs = DB.search(sql);
-           while(rs.next()){
-               Vector v = new Vector();
-               v.add(rs.getString(5));
-               v.add(rs.getString(3));
-               v.add(rs.getString(4));
-               dtm.addRow(v);
-           }
-           getNewRenderedTable(jTable1);
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, e.getMessage(), "System error", JOptionPane.ERROR_MESSAGE); 
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, e.getMessage(), "System error", JOptionPane.ERROR_MESSAGE); 
+        for(int i = 0; i < transactions.size(); i++){
+            System.out.println(transactions.get(i).getDate());
+            Vector v = new Vector();
+            v.add(transactions.get(i).getDate());
+            v.add(transactions.get(i).getAmount()+"");
+            v.add(transactions.get(i).getType());
+            dtm.addRow(v);
         }
-        
+        getNewRenderedTable(jTable1);
     }
     
     private void loadTable(double monthlyPayments[]){

@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 05, 2018 at 10:27 PM
+-- Generation Time: Jan 06, 2018 at 10:41 AM
 -- Server version: 10.1.10-MariaDB
 -- PHP Version: 7.1.11
 
@@ -41,7 +41,7 @@ CREATE TABLE `account` (
 --
 
 INSERT INTO `account` (`accountNumber`, `accountType`, `maturityPeriod`, `balance`, `lastAccessed`, `dateCreated`, `customerID`) VALUES
-('ACC11894', 'savings', NULL, 5000.00, '2017-12-10', '2017-12-10', 'CUS3'),
+('ACC11894', 'savings', NULL, 58523.00, '2017-12-10', '2017-12-10', 'CUS3'),
 ('ACC31346', 'fixed', 24, 35000.00, '2017-12-10', '2017-12-10', 'CUS1'),
 ('ACC35758', 'fixed', 12, 100000.00, '2017-12-17', '2017-12-17', 'CUS4'),
 ('ACC36653', 'savings', NULL, 60000.00, '2017-12-10', '2017-12-10', 'CUS3'),
@@ -114,6 +114,16 @@ CREATE TABLE `loan` (
   `type` varchar(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `loan`
+--
+
+INSERT INTO `loan` (`loanNumber`, `customerNumber`, `loanAmount`, `installment`, `paybackPeriod`, `monthlyDeadline`, `accountNumber`, `type`) VALUES
+('LN25261', 'CUS1', 2500.00, 864.58, 3, 6, 'ACC31346', 'FD'),
+('LN55892', 'CUS1', 2500.00, 447.92, 6, 6, 'ACC39667', 'FD'),
+('LN82543', 'CUS1', 26000.00, 2491.67, 12, 6, NULL, 'Normal'),
+('LN80754', 'CUS2', 5000.00, 895.83, 6, 6, NULL, 'Normal');
+
 -- --------------------------------------------------------
 
 --
@@ -153,7 +163,8 @@ INSERT INTO `transactions` (`transactionID`, `accountNumber`, `amount`, `type`, 
 (18, 'ACC36653', 10500.00, 'deposit', '2018-01-04'),
 (19, 'ACC11894', 5000.00, 'withdrawal', '2018-01-04'),
 (20, 'ACC36653', 424.00, 'withdrawal', '2018-01-05'),
-(21, 'ACC36653', 424.00, 'deposit', '2018-01-05');
+(21, 'ACC36653', 424.00, 'deposit', '2018-01-05'),
+(22, 'ACC11894', 53523.00, 'deposit', '2018-01-06');
 
 -- --------------------------------------------------------
 
@@ -230,7 +241,7 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `transactions`
 --
 ALTER TABLE `transactions`
-  MODIFY `transactionID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `transactionID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 --
 -- Constraints for dumped tables
 --

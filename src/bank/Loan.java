@@ -30,6 +30,12 @@ public class Loan {
     public int createLoan(){
         return 0;
     }
+
+    public String getLoanNumber() {
+        return loanNumber;
+    }
+    
+    
     
     public static int getNewLoanNumber(){
         String sql = "SELECT count(*) FROM loan";

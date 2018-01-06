@@ -6,6 +6,7 @@ package AppForms;
 
 import bank.Account;
 import bank.Customer;
+import bank.Loan;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
@@ -32,10 +33,12 @@ public class CustomerProfileForm extends javax.swing.JFrame {
         jTextField3.setText(customer.customerName());
         jTextField4.setText(customer.getContactNumber());
         System.out.println(customer.getAccounts().size());
-        populateList(customer.getAccounts());
+        populateAccounts(customer.getAccounts());
+        populateLoans(customer.getLoans());
+
     }
     
-    private void populateList(List<Account> accounts) {
+    private void populateAccounts(List<Account> accounts) {
         DefaultListModel listModel = new DefaultListModel();
         if(accounts.size() > 0){
             jList1.setEnabled(true);
@@ -46,6 +49,19 @@ public class CustomerProfileForm extends javax.swing.JFrame {
             listModel.addElement("No Accounts");
         }
         jList1.setModel(listModel);
+    }
+    
+    private void populateLoans(List<Loan> loans) {
+        DefaultListModel listModel = new DefaultListModel();
+        if(loans.size() > 0){
+            jList2.setEnabled(true);
+            for (int i = 0; i < loans.size(); i++) {
+                listModel.addElement(loans.get(i).getLoanNumber());
+            }
+        }else{
+            listModel.addElement("No Loans");
+        }
+        jList2.setModel(listModel);
     }
 
     /**
@@ -256,6 +272,7 @@ public class CustomerProfileForm extends javax.swing.JFrame {
         switch(JOptionPane.showOptionDialog(rootPane, "What type of Loan would you like to create?", "Select Loan Type", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, rootPane)){
             case 0:
                 new AddLoanForm(jLabel6.getText(), 0).setVisible(true);
+                this.setVisible(false);
                 break;
             case 1: 
                 String acc[] = Account.getFixedAccounts(jLabel6.getText());
@@ -265,8 +282,10 @@ public class CustomerProfileForm extends javax.swing.JFrame {
                         accNo = JOptionPane.showInputDialog(null, "Choose an account", "Please select a fixed account", JOptionPane.QUESTION_MESSAGE, null, acc, acc[0]).toString();      
                     } catch (NullPointerException e) {
                     }
-                    if(!"".equals(accNo))
+                    if(!"".equals(accNo)){
                         new AddLoanForm(jLabel6.getText(), 1, accNo).setVisible(true);
+                        this.setVisible(false);
+                    }
                 }else 
                     JOptionPane.showMessageDialog(rootPane, "You do not have any fixed accounts!", "No accounts found", JOptionPane.ERROR_MESSAGE);
                 break;
