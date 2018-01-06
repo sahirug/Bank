@@ -88,7 +88,6 @@ public class CustomerProfileForm extends javax.swing.JFrame {
         jList2 = new javax.swing.JList();
         jLabel10 = new javax.swing.JLabel();
         jButton8 = new javax.swing.JButton();
-        jButton9 = new javax.swing.JButton();
         jButton10 = new javax.swing.JButton();
         jButton11 = new javax.swing.JButton();
 
@@ -151,9 +150,6 @@ public class CustomerProfileForm extends javax.swing.JFrame {
         jButton8.setFont(new java.awt.Font("Segoe UI Light", 0, 18)); // NOI18N
         jButton8.setText("Delete Customer");
 
-        jButton9.setFont(new java.awt.Font("Segoe UI Light", 0, 18)); // NOI18N
-        jButton9.setText("Edit");
-
         jButton10.setFont(new java.awt.Font("Segoe UI Light", 0, 18)); // NOI18N
         jButton10.setText("Add Account");
         jButton10.addActionListener(new java.awt.event.ActionListener() {
@@ -178,9 +174,7 @@ public class CustomerProfileForm extends javax.swing.JFrame {
                 .addGap(217, 217, 217)
                 .addComponent(jLabel5)
                 .addGap(6, 6, 6)
-                .addComponent(jLabel6)
-                .addGap(161, 161, 161)
-                .addComponent(jButton9))
+                .addComponent(jLabel6))
             .addGroup(layout.createSequentialGroup()
                 .addGap(28, 28, 28)
                 .addComponent(jLabel7)
@@ -217,11 +211,8 @@ public class CustomerProfileForm extends javax.swing.JFrame {
                     .addComponent(jLabel5)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(6, 6, 6)
-                        .addComponent(jLabel6))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(2, 2, 2)
-                        .addComponent(jButton9)))
-                .addGap(28, 28, 28)
+                        .addComponent(jLabel6)))
+                .addGap(31, 31, 31)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(3, 3, 3)
@@ -264,6 +255,7 @@ public class CustomerProfileForm extends javax.swing.JFrame {
                     accountProfileForm.setVisible(true);                    
                     break;
             }
+            this.dispose();
         }
     }//GEN-LAST:event_jList1MouseClicked
 
@@ -316,6 +308,7 @@ public class CustomerProfileForm extends javax.swing.JFrame {
                     loanProfileForm.setVisible(true);                    
                     break;
             }
+            this.dispose();
         }
     }//GEN-LAST:event_jList2MouseClicked
 
@@ -357,7 +350,6 @@ public class CustomerProfileForm extends javax.swing.JFrame {
     private javax.swing.JButton jButton10;
     private javax.swing.JButton jButton11;
     private javax.swing.JButton jButton8;
-    private javax.swing.JButton jButton9;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;

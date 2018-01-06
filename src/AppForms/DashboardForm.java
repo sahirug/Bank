@@ -18,11 +18,6 @@ public class DashboardForm extends javax.swing.JFrame {
      */
     public DashboardForm() {
         initComponents();
-        buttonGroup1.add(jRadioButton1);
-        buttonGroup1.add(jRadioButton2);
-        buttonGroup1.add(jRadioButton3);
-        buttonGroup1.add(jRadioButton4);
-        jRadioButton1.setSelected(true);
     }
 
     /**
@@ -43,15 +38,11 @@ public class DashboardForm extends javax.swing.JFrame {
         jButton10 = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
-        jRadioButton1 = new javax.swing.JRadioButton();
-        jRadioButton2 = new javax.swing.JRadioButton();
-        jRadioButton3 = new javax.swing.JRadioButton();
-        jRadioButton4 = new javax.swing.JRadioButton();
         jLabel5 = new javax.swing.JLabel();
         jTextField2 = new javax.swing.JTextField();
         jButton11 = new javax.swing.JButton();
+        jLabel4 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -131,22 +122,7 @@ public class DashboardForm extends javax.swing.JFrame {
         jLabel3.setFont(new java.awt.Font("Segoe UI Light", 1, 24)); // NOI18N
         jLabel3.setText("Bank System");
 
-        jLabel4.setFont(new java.awt.Font("Segoe UI Light", 1, 18)); // NOI18N
-        jLabel4.setText("Search");
-
         jPanel3.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-
-        jRadioButton1.setFont(new java.awt.Font("Segoe UI Light", 0, 18)); // NOI18N
-        jRadioButton1.setText("Customer");
-
-        jRadioButton2.setFont(new java.awt.Font("Segoe UI Light", 0, 18)); // NOI18N
-        jRadioButton2.setText("Employee");
-
-        jRadioButton3.setFont(new java.awt.Font("Segoe UI Light", 0, 18)); // NOI18N
-        jRadioButton3.setText("Account");
-
-        jRadioButton4.setFont(new java.awt.Font("Segoe UI Light", 0, 18)); // NOI18N
-        jRadioButton4.setText("Loan");
 
         jLabel5.setFont(new java.awt.Font("Segoe UI Light", 0, 18)); // NOI18N
         jLabel5.setText("Ref ID");
@@ -166,20 +142,13 @@ public class DashboardForm extends javax.swing.JFrame {
             }
         });
 
+        jLabel4.setFont(new java.awt.Font("Segoe UI Light", 1, 18)); // NOI18N
+        jLabel4.setText("Search customer by reference ID");
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jRadioButton1)
-                .addGap(66, 66, 66)
-                .addComponent(jRadioButton2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jRadioButton4)
-                .addGap(73, 73, 73)
-                .addComponent(jRadioButton3)
-                .addGap(21, 21, 21))
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel5)
@@ -188,16 +157,16 @@ public class DashboardForm extends javax.swing.JFrame {
                 .addGap(57, 57, 57)
                 .addComponent(jButton11)
                 .addGap(98, 98, 98))
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(23, 23, 23)
+                .addComponent(jLabel4)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jRadioButton1)
-                    .addComponent(jRadioButton2)
-                    .addComponent(jRadioButton3)
-                    .addComponent(jRadioButton4))
+                .addGap(15, 15, 15)
+                .addComponent(jLabel4)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton11)
@@ -220,9 +189,7 @@ public class DashboardForm extends javax.swing.JFrame {
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                 .addComponent(jLabel3)
                                 .addGroup(layout.createSequentialGroup()
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jLabel4)
-                                        .addComponent(jLabel2))
+                                    .addComponent(jLabel2)
                                     .addGap(295, 295, 295))))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -245,9 +212,7 @@ public class DashboardForm extends javax.swing.JFrame {
                         .addComponent(jLabel2)
                         .addGap(18, 18, 18)
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(20, 20, 20)
-                .addComponent(jLabel4)
-                .addGap(34, 34, 34)
+                .addGap(79, 79, 79)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(53, Short.MAX_VALUE))
         );
@@ -269,19 +234,11 @@ public class DashboardForm extends javax.swing.JFrame {
 
     private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
         if(!"".equals(jTextField2.getText())){
-            if(jRadioButton1.isSelected()){
-                Customer customer = Customer.getDetails("CUS"+jTextField2.getText());
-                if(customer != null){                    
-                    new CustomerProfileForm(customer).setVisible(true);
-                }else{
-                    JOptionPane.showMessageDialog(null, "Customer CUS"+jTextField2.getText()+" does not exist", "Customer not found", JOptionPane.ERROR_MESSAGE);                    
-                }
-            }else if(jRadioButton2.isSelected()){
-
-            }else if(jRadioButton3.isSelected()){
-
-            }else if(jRadioButton4.isSelected()){
-                
+            Customer customer = Customer.getDetails("CUS"+jTextField2.getText());
+            if(customer != null){                    
+                new CustomerProfileForm(customer).setVisible(true);
+            }else{
+                JOptionPane.showMessageDialog(null, "Customer CUS"+jTextField2.getText()+" does not exist", "Customer not found", JOptionPane.ERROR_MESSAGE);                    
             }
         }else{
             JOptionPane.showMessageDialog(rootPane, "Please enter a reference ID", "Reference ID empty", JOptionPane.ERROR_MESSAGE);
@@ -340,10 +297,6 @@ public class DashboardForm extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JRadioButton jRadioButton1;
-    private javax.swing.JRadioButton jRadioButton2;
-    private javax.swing.JRadioButton jRadioButton3;
-    private javax.swing.JRadioButton jRadioButton4;
     private javax.swing.JTextField jTextField2;
     // End of variables declaration//GEN-END:variables
 }

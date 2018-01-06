@@ -355,11 +355,10 @@ public class AccountProfileForm extends javax.swing.JFrame {
         int x = JOptionPane.showConfirmDialog(rootPane, "Are you sure you want to close this account?", "Close Account", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
         //yes = 0 no = 1
         if(x == 0){
-            String sql = "DELETE FROM transactions WHERE accountNumber='"+jLabel4.getText()+"'";
-            try {
-                
-            } catch (Exception e) {
-            }
+            SavingsAccount account = new SavingsAccount(jLabel4.getText());
+            account.closeAccount();
+            JOptionPane.showMessageDialog(rootPane, "Account has been closed", "Account closed", JOptionPane.INFORMATION_MESSAGE);
+            this.dispose();
         }
         
     }//GEN-LAST:event_jButton12ActionPerformed

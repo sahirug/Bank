@@ -31,6 +31,7 @@ public class AddLoanForm extends javax.swing.JFrame {
     
     public AddLoanForm(String customerID, int loanType) {
         initComponents();
+        jComboBox1.setEnabled(false);
         loadLoanNumber();
         jTextField3.setText(customerID);
         showLabels(loanType);
@@ -39,6 +40,7 @@ public class AddLoanForm extends javax.swing.JFrame {
     
     public AddLoanForm(String customerID, int loanType, String accNo) {
         initComponents();
+        jComboBox1.setEnabled(false);
         loadLoanNumber();
         jTextField3.setText(customerID);
         showLabels(loanType);

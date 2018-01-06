@@ -106,4 +106,17 @@ public class SavingsAccount extends Account{
         }
         return 0.0;
     }
+    
+    public void closeAccount(){
+        String sql = "DELETE FROM transactions WHERE accountNumber = '"+this.accountNumber+"'";
+        try {
+            DB.insertUpdateDelete(sql);
+            sql = "DELETE FROM account WHERE accountNumber = '"+this.accountNumber+"'";
+            DB.insertUpdateDelete(sql);
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), "System error", JOptionPane.ERROR_MESSAGE); 
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), "System error", JOptionPane.ERROR_MESSAGE); 
+        }
+    }
 }
