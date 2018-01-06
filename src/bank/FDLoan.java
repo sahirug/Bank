@@ -14,6 +14,7 @@ import javax.swing.JOptionPane;
  */
 public class FDLoan extends Loan{
     private String accountNumber;
+    private final double penaltyRate = 0.1;
     public FDLoan(String customerNumber, double loanAmount, double monthlyInstallment, int paybackPeriod, int monthlyDeadline, String loanNumber, String accountNumber) {
         super(customerNumber, loanAmount, monthlyInstallment, paybackPeriod, monthlyDeadline, loanNumber);
         this.accountNumber = accountNumber;
@@ -21,6 +22,10 @@ public class FDLoan extends Loan{
     public FDLoan(String loanNumber){
         this.loanNumber = loanNumber;
         setFields();
+    }
+
+    public double getPenaltyRate() {
+        return penaltyRate;
     }
     
     private void setFields(){

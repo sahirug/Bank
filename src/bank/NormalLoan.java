@@ -13,7 +13,7 @@ import javax.swing.JOptionPane;
  * @author User
  */
 public class NormalLoan extends Loan{
-
+    private final double penaltyRate = 0.15;
     public NormalLoan(String customerNumber, double loanAmount, double monthlyInstallment, int paybackPeriod, int monthlyDeadline, String loanNumber) {
         super(customerNumber, loanAmount, monthlyInstallment, paybackPeriod, monthlyDeadline, loanNumber);
     }
@@ -21,6 +21,10 @@ public class NormalLoan extends Loan{
     public NormalLoan(String loanNumber){
         this.loanNumber = loanNumber;
         setFields();
+    }
+
+    public double getPenaltyRate() {
+        return penaltyRate;
     }
     
     private void setFields(){

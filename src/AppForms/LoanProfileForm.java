@@ -4,7 +4,17 @@
  */
 package AppForms;
 
+import bank.Installment;
 import bank.Loan;
+import com.toedter.calendar.JDateChooser;
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+import java.util.Vector;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -15,9 +25,12 @@ public class LoanProfileForm extends javax.swing.JFrame {
     /**
      * Creates new form LoanProfileForm
      */
+    private Loan loan;
     public LoanProfileForm() {
         initComponents();
     }
+    
+    private int monthlyDeadline;
     
     public LoanProfileForm(Loan loan){
         initComponents();
@@ -34,7 +47,28 @@ public class LoanProfileForm extends javax.swing.JFrame {
         jLabel8.setText(loan.getCustomerNumber());
         jLabel10.setText(loan.getLoanAmount()+"");
         jLabel16.setText(loan.getPaybackPeriod()+"");
-        
+        jLabel20.setText(loan.getMonthlyInstallment()+"");
+        this.monthlyDeadline = loan.getMonthlyDeadline();
+        jLabel14.setText(getBalancePayable());
+        loan.setInstallments();
+        loadTable(loan.getInstallments());
+    }
+    
+    private void loadTable(List<Installment> installments){
+        DefaultTableModel dtm = (DefaultTableModel) jTable1.getModel();
+        for (int i = 0; i < installments.size(); i++) {
+            Vector v = new Vector();
+            v.add(installments.get(i).getDate());
+            v.add(installments.get(i).getAmount());
+            dtm.addRow(v);
+        }
+        jLabel18.setText(installments.size()+"");
+    }
+    
+    private String getBalancePayable(){
+        double amountPaid = Double.parseDouble(jLabel18.getText()) * Double.parseDouble(jLabel20.getText());
+        double balancePayable = ((Double.parseDouble(jLabel20.getText())) * Double.parseDouble(jLabel16.getText())) - amountPaid;
+        return (new DecimalFormat("#.00").format(balancePayable));
     }
 
     /**
@@ -102,6 +136,11 @@ public class LoanProfileForm extends javax.swing.JFrame {
 
         jButton10.setFont(new java.awt.Font("Segoe UI Light", 0, 18)); // NOI18N
         jButton10.setText("Pay Installment");
+        jButton10.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton10ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -268,6 +307,61 @@ public class LoanProfileForm extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
+        JDateChooser jd = new JDateChooser();
+        Object[] params = {"Please enter a date", jd};
+        JOptionPane.showConfirmDialog(null,params,"Payment date", JOptionPane.PLAIN_MESSAGE);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+        try {
+            Date d = ((JDateChooser)params[1]).getDate();
+            String date=sdf.format(d);
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(d);
+            int day = cal.get(Calendar.DATE);
+            int difference = this.monthlyDeadline - day;
+            double penalty=0.0;
+            if(difference < 0){
+                switch(jLabel6.getText()){
+                    case "FD":
+                        penalty = 0.1;
+                        break;
+                    case "Normal":
+                        penalty = 0.15;
+                        break;
+                    default:
+                        penalty = 0.1;
+                        break;
+                }
+            }
+            double installmentAmount = Double.parseDouble(jLabel20.getText()) * (penalty+1);
+            Installment installment = new Installment(jLabel4.getText(), date, installmentAmount);
+            System.out.println("sahiru");
+            if(installment.create() == 1){
+                JOptionPane.showMessageDialog(rootPane, "Installment paid!", "Installment", JOptionPane.INFORMATION_MESSAGE);
+                DefaultTableModel dtm = (DefaultTableModel) jTable1.getModel();
+                Vector v = new Vector();
+                v.add(date);
+                v.add(installmentAmount);
+                dtm.addRow(v);
+                checkIfSettled();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_jButton10ActionPerformed
+
+    private void checkIfSettled(){
+        int noOfInstallments = Integer.parseInt(jLabel18.getText());
+        noOfInstallments++;
+        jLabel18.setText(noOfInstallments+"");
+        if(noOfInstallments == Integer.parseInt(jLabel16.getText())){
+            Loan loan = new Loan(jLabel4.getText());
+            loan.settleLoan();
+            JOptionPane.showMessageDialog(rootPane, "Loan has been settled!", "Loan payments complete", JOptionPane.INFORMATION_MESSAGE);
+            this.dispose();
+        }
+    }
+    
     /**
      * @param args the command line arguments
      */

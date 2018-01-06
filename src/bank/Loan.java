@@ -7,6 +7,8 @@ package bank;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JOptionPane;
 
 /**
@@ -17,9 +19,14 @@ public class Loan {
     protected double loanAmount, monthlyInstallment;
     protected int paybackPeriod, monthlyDeadline;
     protected String customerNumber, loanNumber;
+    protected List<Installment> installments;
 
     public Loan(){
         
+    }
+    
+    public Loan(String loanNumber){
+        this.loanNumber = loanNumber;
     }
     
     public Loan(String customerNumber, double loanAmount, double monthlyInstallment, int paybackPeriod, int monthlyDeadline, String loanNumber) {
@@ -59,7 +66,25 @@ public class Loan {
         return monthlyDeadline;
     }
     
-    
+    public void setInstallments(){
+        String sql = "SELECT * FROM installment WHERE loanNumber = '"+this.loanNumber+"'";
+        try {
+            ResultSet rs = DB.search(sql);
+            this.installments = new ArrayList<>();
+            while(rs.next()){
+                Installment installment = new Installment(this.loanNumber, rs.getString(4), rs.getDouble(3));
+                this.installments.add(installment);
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), "System error", JOptionPane.ERROR_MESSAGE); 
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), "System error", JOptionPane.ERROR_MESSAGE); 
+        }
+    }
+
+    public List<Installment> getInstallments() {
+        return installments;
+    }
     
     public static String getType(String loanNumber){
         String sql = "SELECT type FROM loan WHERE loanNumber = '"+loanNumber+"'";
@@ -97,5 +122,18 @@ public class Loan {
         double monthlyPayment = finalPayable / months;
         System.out.println("withoutinterest: " + monthlyPayment);
         return Double.parseDouble(new DecimalFormat("#.00").format(monthlyPayment));
+    }
+    
+    public void settleLoan(){
+        String sql = "DELETE FROM installment WHERE loanNumber = '"+this.loanNumber+"'";
+        try {
+            DB.insertUpdateDelete(sql);
+            sql = "DELETE FROM loan WHERE loanNumber = '"+this.loanNumber+"'";
+            DB.insertUpdateDelete(sql);
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), "System error", JOptionPane.ERROR_MESSAGE); 
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), "System error", JOptionPane.ERROR_MESSAGE); 
+        }
     }
 }
