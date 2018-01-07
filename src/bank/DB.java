@@ -7,6 +7,7 @@ package bank;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 
 /**
  *
@@ -21,8 +22,10 @@ public class DB {
     }
     
     public static int insertUpdateDelete(String sql) throws Exception{
-        if(c == null)
+        if(c == null || c.isClosed()){
             createConnection();
+            System.out.println(c.isClosed());
+        }
         return c.createStatement().executeUpdate(sql);
     }
     
@@ -30,5 +33,9 @@ public class DB {
         if(c == null)
             createConnection();
         return c.createStatement().executeQuery(sql);
+    }
+    
+    public static void closeConnection() throws SQLException{
+        c.close();
     }
 }
