@@ -5,7 +5,10 @@
 package AppForms;
 
 import bank.Customer;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import javax.swing.JOptionPane;
 
 /**
@@ -26,16 +29,9 @@ public class DashboardForm extends javax.swing.JFrame {
         Thread clock = new Thread(){
             public void run(){
                 for(;;){
-                    Calendar cal = Calendar.getInstance();
-                    int second = cal.get(Calendar.SECOND);
-                    int minute = cal.get(Calendar.MINUTE);
-                    int hour = cal.get(Calendar.HOUR);
-                    boolean am_pm = (cal.get(Calendar.AM_PM)) == (cal.get(Calendar.PM));
-                    if(am_pm){
-                        jLabel7.setText(hour + ":" + minute + ":" + second + " AM" );
-                    }else{
-                        jLabel7.setText(hour + ":" + minute + ":" + second + " PM" );
-                    }
+                    DateFormat df = new SimpleDateFormat("HH:mm:ss");
+                    Calendar calobj = Calendar.getInstance();
+                    jLabel7.setText(df.format(calobj.getTime()));
                     try {
                         sleep(1000);
                     } catch (Exception e) {
